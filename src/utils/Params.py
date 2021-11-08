@@ -26,7 +26,7 @@ def singleton(cls):
     return getinstance
 
 
-#@singleton
+# @singleton
 class Params:
     ##########################
     # other
@@ -56,9 +56,8 @@ class Params:
     ##########################
     debug = False
 
-
     n_cpus = multiprocessing.cpu_count() if not debug else 1
-    n_gpus = 1 if not debug and tf.test.is_gpu_available() else 0
+    n_gpus = 1 if not debug and len(tf.config.list_physical_devices('GPU')) > 0 else 0
     n_workers = 7 if not debug else 1
 
     ##########################
@@ -68,7 +67,7 @@ class Params:
     log_step = 500
     max_checkpoint_keep = 10
     resume_training = False
-    alternating=False
+    alternating = False
 
     ##########################
     # env params

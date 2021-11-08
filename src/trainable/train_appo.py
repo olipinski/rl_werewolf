@@ -12,7 +12,7 @@ from ray import tune
 from ray.rllib.agents.ppo import PPOTrainer, APPOTrainer
 from ray.rllib.agents.ppo.ppo_tf_policy import PPOTFPolicy
 
-from callbacks import  CustomCallbacks
+from callbacks import CustomCallbacks
 from envs import CONFIGS
 from models import ParametricActionsModel
 from other.custom_utils import trial_name_creator
@@ -37,9 +37,8 @@ def mapping_dynamic(agent_id):
     else:
         raise NotImplementedError(f"Policy for role {agent_id} not implemented")
 
+
 if __name__ == '__main__':
-
-
     _ = ParametricActionsModel
     ray.init(local_mode=Params.debug, logging_level=logging.DEBUG, num_gpus=1)
 
@@ -60,7 +59,7 @@ if __name__ == '__main__':
     configs = {
         "env": EvaluationWrapper,
         "env_config": env_configs,
-        "eager": False ,
+        "framework": "tfe",
         "eager_tracing": False,
         "num_workers": Params.n_workers,
         "num_gpus": Params.n_gpus,
@@ -72,10 +71,8 @@ if __name__ == '__main__':
         "lr": 3e-4,
         "lambda": .95,
         "gamma": .998,
-        "num_sgd_iter": 1, #default 1
-        "replay_proportion":0.05,
-
-
+        "num_sgd_iter": 1,  # default 1
+        "replay_proportion": 0.05,
 
         "callbacks": CustomCallbacks,
 

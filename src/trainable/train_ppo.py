@@ -29,7 +29,6 @@ def mapping_static(agent_id):
 
 
 if __name__ == '__main__':
-
     _ = ParametricActionsModel
     ray.init(local_mode=Params.debug, logging_level=logging.DEBUG)
 
@@ -50,7 +49,7 @@ if __name__ == '__main__':
     configs = {
         "env": EvaluationWrapper,
         "env_config": env_configs,
-        "eager": True,
+        "framework": "tfe",
         "eager_tracing": False,
         "num_workers": Params.n_workers,
         "num_gpus": Params.n_gpus,
@@ -70,7 +69,7 @@ if __name__ == '__main__':
         "num_sgd_iter": 10,
 
         # todo: remove this [here](https://github.com/ray-project/ray/issues/7991)
-        #"simple_optimizer": True,
+        # "simple_optimizer": True,
 
         "callbacks": {
             "on_episode_end": on_episode_end,
