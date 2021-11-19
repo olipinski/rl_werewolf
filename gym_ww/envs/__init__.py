@@ -1,6 +1,9 @@
-from gym_ww import ww, vil
+import gym_ww
 from gym_ww.envs.WwEnv import WwEnv
 from src.utils import Params
+
+ww = gym_ww.ww
+vil = gym_ww.vil
 
 CONFIGS = dict(
 

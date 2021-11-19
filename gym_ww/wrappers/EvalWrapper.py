@@ -3,11 +3,15 @@ import logging
 
 import numpy as np
 
+import gym_ww
 from src.evaluation import Prof, Episode
-from gym_ww import logger, ww, vil
 from src.other.custom_utils import pprint, suicide_num, most_frequent
 from src.utils import Params
 from gym_ww.wrappers.PaWrapper import ParametricActionWrapper
+
+logger = gym_ww.logger
+ww = gym_ww.ww
+vil = gym_ww.vil
 
 
 class EvaluationWrapper(ParametricActionWrapper):

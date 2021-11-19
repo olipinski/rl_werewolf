@@ -7,25 +7,17 @@ from gym import spaces
 from ray.rllib import MultiAgentEnv
 from ray.rllib.env import EnvContext
 
-from gym_ww import ww, vil
+import gym_ww
 from src.other.custom_utils import most_frequent
-
-
-####################
-# global vars
-####################
-# penalty fro breaking a rule
 
 ####################
 # names for roles
 ####################
+ww = gym_ww.ww
+vil = gym_ww.vil
 
 
 class WwEnv(MultiAgentEnv):
-    """
-
-
-    """
 
     def __init__(self, configs, ww_num=None):
         """
