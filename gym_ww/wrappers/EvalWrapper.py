@@ -3,11 +3,11 @@ import logging
 
 import numpy as np
 
-from evaluation import Prof, Episode
+from src.evaluation import Prof, Episode
 from gym_ww import logger, ww, vil
-from other.custom_utils import pprint, suicide_num, most_frequent
-from utils import Params
-from wrappers.PaWrapper import ParametricActionWrapper
+from src.other.custom_utils import pprint, suicide_num, most_frequent
+from src.utils import Params
+from gym_ww.wrappers.PaWrapper import ParametricActionWrapper
 
 
 class EvaluationWrapper(ParametricActionWrapper):
@@ -147,7 +147,8 @@ class EvaluationWrapper(ParametricActionWrapper):
             accord = sum([1 for t in targets.values() if t == chosen]) / len(targets)
             self.custom_metrics["accord"] += accord
 
-            if accord > 1: raise AttributeError("Accord garter than 1")
+            if accord > 1:
+                raise AttributeError("Accord garter than 1")
 
         elif self.phase == 1:
             were_wolves = self.get_ids(ww, alive=True, include_just_died=True)
@@ -156,7 +157,8 @@ class EvaluationWrapper(ParametricActionWrapper):
             accord = sum([1 for t in were_wolves.values() if t == chosen]) / len(were_wolves)
             self.custom_metrics["accord"] += accord
 
-            if accord > 1: raise AttributeError("Accord garter than 1")
+            if accord > 1:
+                raise AttributeError("Accord garter than 1")
 
         if self.is_done:
 
@@ -254,7 +256,6 @@ class EvaluationWrapper(ParametricActionWrapper):
         self.log("\n")
 
     def log(self, msg, level=logging.INFO):
-
         logger.log(msg=msg, level=level)
 
 
@@ -267,11 +268,11 @@ def win_brackets(num_lines=5):
     hash_num = 1
     for _ in range(num_lines):
         hash_num *= 2
-        msg += "#" * (hash_num) + "\n"
+        msg += "#" * hash_num + "\n"
 
     msg += "-\n"
     for j in range(num_lines):
-        msg += "#" * (hash_num) + "\n"
+        msg += "#" * hash_num + "\n"
         hash_num //= 2
 
     return msg

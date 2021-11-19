@@ -3,7 +3,7 @@ import random
 
 import numpy as np
 
-from utils import Params
+from src.utils import Params
 
 
 def str_id_map(str_list):
@@ -41,7 +41,7 @@ def most_frequent(choices):
     num = choices[0]
     for i in choices:
         curr_frequency = choices.count(i)
-        if (curr_frequency > counter):
+        if curr_frequency > counter:
             counter = curr_frequency
             num = i
 
@@ -113,14 +113,6 @@ def downsample(vector, rate, maximum, minimum=0):
     :param minimum: float, min value
     :return: np.array, array of 'rate' distinct elements,
     """
-
-    def test():
-        min_ = 5
-        max_ = 15
-        rate = 3
-        prov = np.random.randint(min_, high=max_, size=10)
-        res = downsample(prov, rate, max_, minimum=min_)
-        a = 1
 
     # get the split rate
     split = (maximum - minimum) / rate

@@ -1,7 +1,7 @@
 import numpy as np
 
-from utils import Params
-from utils.serialization import dump_pkl, load_pkl
+from src.utils import Params
+from src.utils.serialization import dump_pkl, load_pkl
 
 
 class Prof:

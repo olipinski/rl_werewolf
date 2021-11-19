@@ -1,6 +1,6 @@
 from ray.rllib.agents.callbacks import DefaultCallbacks
 
-from utils import Params
+from src.utils import Params
 
 
 class CustomCallbacks(DefaultCallbacks):

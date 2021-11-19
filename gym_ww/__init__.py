@@ -1,6 +1,7 @@
 import logging
 
-from utils import Params
+from src.utils import Params
+from gym_ww.wrappers import EvaluationWrapper
 
 ww = "werewolf"
 vil = "villager"

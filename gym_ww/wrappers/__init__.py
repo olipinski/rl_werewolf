@@ -1,2 +1,2 @@
-from wrappers.EvalWrapper import EvaluationWrapper
-from wrappers.PaWrapper import ParametricActionWrapper
+from gym_ww.wrappers.EvalWrapper import EvaluationWrapper
+from gym_ww.wrappers.PaWrapper import ParametricActionWrapper

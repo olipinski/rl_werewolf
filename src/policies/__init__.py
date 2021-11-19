@@ -1,6 +1,6 @@
-from policies.RandomTarget import RandomTarget
+from src.policies.RandomTarget import RandomTarget
 
-from policies.RandomTargetUnite import RandomTargetUnite
+from src.policies.RandomTargetUnite import RandomTargetUnite
 
-from policies.RevengeTarget import RevengeTarget
+from src.policies.RevengeTarget import RevengeTarget
 

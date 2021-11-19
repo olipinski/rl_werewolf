@@ -41,7 +41,8 @@ def measure_influence(cur_targets, prev_targets, flexibility):
 
     ct, pt = filter_dead_players()
 
-    if not len(ct): return 0
+    if not len(ct):
+        return 0
 
     # get just hte visible part
     pt = pt[:, :flexibility]

@@ -1,10 +1,11 @@
 from ray.rllib import Policy
 
-from policies.utils import revenge_target
+from src.policies.utils import revenge_target
 
 
 class RevengeTarget(Policy):
-    """Hand-coded policy that returns the id of an agent who chose the current one in the last run, if none then random """
+    """Hand-coded policy that returns the id of an agent who chose the
+    current one in the last run, if none then random """
 
     def __init__(self, observation_space, action_space, config):
         super().__init__(observation_space, action_space, config)

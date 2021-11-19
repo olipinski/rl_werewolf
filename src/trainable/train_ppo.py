@@ -1,8 +1,4 @@
-from policies.RandomTargetUnite import RandomTargetUnite
-from policies.RevengeTarget import RevengeTarget
-from utils import Params
-
-_ = Params()
+from src.policies.RevengeTarget import RevengeTarget
 
 import logging
 
@@ -11,12 +7,15 @@ from ray import tune
 from ray.rllib.agents.ppo import PPOTrainer
 from ray.rllib.agents.ppo.ppo_tf_policy import PPOTFPolicy
 
-from callbacks import on_episode_end
-from envs import CONFIGS
-from models import ParametricActionsModel
-from other.custom_utils import trial_name_creator
-from policies.RandomTarget import RandomTarget
-from wrappers import EvaluationWrapper
+from gym_ww.callbacks import CustomCallbacks
+from gym_ww.envs import CONFIGS
+from src.models import ParametricActionsModel
+from src.other.custom_utils import trial_name_creator
+from gym_ww.wrappers import EvaluationWrapper
+
+from src.utils import Params
+
+_ = Params()
 
 
 def mapping_static(agent_id):
@@ -49,7 +48,7 @@ if __name__ == '__main__':
     configs = {
         "env": EvaluationWrapper,
         "env_config": env_configs,
-        "framework": "tfe",
+        "framework": "tf2",
         "eager_tracing": False,
         "num_workers": Params.n_workers,
         "num_gpus": Params.n_gpus,
@@ -71,9 +70,7 @@ if __name__ == '__main__':
         # todo: remove this [here](https://github.com/ray-project/ray/issues/7991)
         # "simple_optimizer": True,
 
-        "callbacks": {
-            "on_episode_end": on_episode_end,
-        },
+        "callbacks": CustomCallbacks,
 
         "model": {
             "use_lstm": False,

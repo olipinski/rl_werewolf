@@ -84,6 +84,9 @@ class Params:
     signal_length = 0
     signal_range = 9
 
+    # number of rounds in the voting phase
+    n_voting_rounds = 3
+
     ##########################
     #    METHODS
     ##########################

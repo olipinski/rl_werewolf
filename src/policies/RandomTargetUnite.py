@@ -1,6 +1,6 @@
 from ray.rllib import Policy
 
-from policies.utils import random_non_wolf
+from src.policies.utils import random_non_wolf
 
 
 class RandomTargetUnite(Policy):

@@ -1,23 +1,21 @@
 from ray.rllib.agents.ppo.appo_tf_policy import AsyncPPOTFPolicy
 
-from policies import *
-from utils import Params
-
-_ = Params()
-
 import logging
 
 import ray
 from ray import tune
-from ray.rllib.agents.ppo import PPOTrainer, APPOTrainer
-from ray.rllib.agents.ppo.ppo_tf_policy import PPOTFPolicy
+from ray.rllib.agents.ppo import APPOTrainer
 
-from callbacks import CustomCallbacks
-from envs import CONFIGS
-from models import ParametricActionsModel
-from other.custom_utils import trial_name_creator
-from policies.RandomTarget import RandomTarget
-from wrappers import EvaluationWrapper
+from gym_ww.callbacks import CustomCallbacks
+from gym_ww.envs import CONFIGS
+from src.models import ParametricActionsModel
+from src.other.custom_utils import trial_name_creator
+from src.policies.RandomTarget import RandomTarget
+from gym_ww.wrappers import EvaluationWrapper
+
+from src.utils import Params
+
+_ = Params()
 
 
 def mapping_static(agent_id):
@@ -59,7 +57,7 @@ if __name__ == '__main__':
     configs = {
         "env": EvaluationWrapper,
         "env_config": env_configs,
-        "framework": "tfe",
+        "framework": "tf2",
         "eager_tracing": False,
         "num_workers": Params.n_workers,
         "num_gpus": Params.n_gpus,

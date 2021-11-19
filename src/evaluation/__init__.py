@@ -1,2 +1,2 @@
-from evaluation.Episode import Episode
-from evaluation.Prof import Prof
+from src.evaluation.Episode import Episode
+from src.evaluation.Prof import Prof

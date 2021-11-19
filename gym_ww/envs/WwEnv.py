@@ -42,7 +42,6 @@ class WwEnv(MultiAgentEnv):
             except KeyError:
                 raise AttributeError(f"Attribute 'num_players' should be present in the EnvContext")
 
-
         elif isinstance(configs, int):
             # used for back compatibility
             num_players = configs
@@ -59,7 +58,8 @@ class WwEnv(MultiAgentEnv):
             # random.shuffle(roles)
 
         else:
-            assert ww_num < num_players, f"The number of werewolves  should be less than the number of players ({num_players})"
+            assert ww_num < num_players, f"The number of werewolves  should be less than " \
+                                         f"the number of players ({num_players}) "
             num_wolves = ww_num
             num_villagers = num_players - num_wolves
 
@@ -94,7 +94,7 @@ class WwEnv(MultiAgentEnv):
         self.initialize()
 
     #######################################
-    #       INITALIZATION
+    #       INITIALIZATION
     #######################################
 
     def initialize(self):
@@ -417,7 +417,7 @@ class WwEnv(MultiAgentEnv):
         dones = {id_: False for id_ in rewards.keys()}
 
         # get list of alive agents
-        alives = self.get_ids('all', alive=True)
+        alives = self.get_ids('all')
 
         # if there are more wolves than villagers than they won
         wolf_won = len(self.get_ids(ww)) >= len(self.get_ids(vil))
@@ -553,7 +553,7 @@ class WwEnv(MultiAgentEnv):
         def add_missing(signal, targets):
             """
             Add missing values (for dead agents) to targets and signal
-            :param signal: ndarray, signal of size [num_player, signal_lenght]
+            :param signal: ndarray, signal of size [num_player, signal_length]
             :param targets: dict[int->int], mapping agent ids to targets
             :return: tuple
                 1: signal

@@ -18,7 +18,6 @@ class ParametricActionsModel(TFModelV2):
                  action_space,
                  num_outputs,
                  model_config,
-                 name,
                  ):
         name = "Pa_model"
         super(ParametricActionsModel, self).__init__(

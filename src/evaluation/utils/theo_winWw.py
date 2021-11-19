@@ -65,7 +65,7 @@ def theo_ww_revenge(N):
         return 1
 
 
-def theo_unite(N):
+def theo_unite():
     return 1
 
 

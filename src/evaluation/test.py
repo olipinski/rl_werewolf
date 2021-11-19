@@ -1,4 +1,4 @@
-from evaluation import Prof
+from src.evaluation import Prof
 
 file = "/Users/dizzi/Desktop/episode.pkl"
 p = Prof(episode_file=file)

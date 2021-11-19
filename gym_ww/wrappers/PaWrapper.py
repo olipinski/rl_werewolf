@@ -5,7 +5,7 @@ import numpy as np
 from ray.rllib.models.preprocessors import get_preprocessor
 from ray.rllib.utils.error import UnsupportedSpaceException
 
-from envs.WwEnv import WwEnv
+from gym_ww.envs.WwEnv import WwEnv
 from gym_ww import ww
 
 
@@ -149,7 +149,7 @@ def _make_box_from_obs(space):
     # for every space
     for s in sp:
 
-        # if discrete then the observation will be transformed to a OneHotVector rapresentation to deal with
+        # if discrete then the observation will be transformed to a OneHotVector representation to deal with
         # discrete values, so add n 0/1 as lows/highs
         if isinstance(s, gym.spaces.Discrete):
             highs += [1] * s.n
@@ -202,7 +202,7 @@ def _make_array_from_obs(obs, size, spaces):
             size = reduce(lambda x, y: x * y, sp.shape)
             array[offset:offset + size] = v
 
-        # if Discrete then we need to use the OHV rappresentation, and set n to be one
+        # if Discrete then we need to use the OHV representation, and set n to be one
         elif isinstance(sp, gym.spaces.Discrete):
             size = sp.n
             array[offset + v] = 1
