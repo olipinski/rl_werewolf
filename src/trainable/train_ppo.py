@@ -48,7 +48,7 @@ if __name__ == '__main__':
     configs = {
         "env": EvaluationWrapper,
         "env_config": env_configs,
-        "framework": "tf",
+        "framework": "tfe",
         "eager_tracing": False,
         "num_workers": Params.n_workers,
         "num_gpus": Params.n_gpus,
@@ -66,9 +66,6 @@ if __name__ == '__main__':
         "use_gae": True,
         "grad_clip": 5,
         "num_sgd_iter": 10,
-
-        # todo: remove this [here](https://github.com/ray-project/ray/issues/7991)
-        # "simple_optimizer": True,
 
         "callbacks": CustomCallbacks,
 

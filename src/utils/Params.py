@@ -91,6 +91,22 @@ class Params:
     #    METHODS
     ##########################
 
+    def __init__(self):
+        print("Params class initialized")
+
+        if not self.resume_training:
+            self.__empty_dirs([self.LOG_DIR])
+
+        self.__initialize_dirs()
+
+        # change values based on argparse
+        self.__parse_args()
+
+        if not self.resume_training:
+            # log params to file and out
+            with open(self.params_file, "w+") as f:
+                self.__log_params([sys.stdout, f])
+
     def __parse_args(self):
         """
         Use argparse to change the default values in the param class
@@ -110,22 +126,6 @@ class Params:
 
         for k, v in vars(parser.parse_args()).items():
             self.__setattr__(k, v)
-
-    def __init__(self):
-        print("Params class initialized")
-
-        if not self.resume_training:
-            self.__empty_dirs([self.LOG_DIR])
-
-        self.__initialize_dirs()
-
-        # change values based on argparse
-        self.__parse_args()
-
-        if not self.resume_training:
-            # log params to file and out
-            with open(self.params_file, "w+") as f:
-                self.__log_params([sys.stdout, f])
 
     def __get_attributes(self):
         """

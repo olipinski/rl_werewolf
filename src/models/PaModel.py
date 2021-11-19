@@ -20,8 +20,7 @@ class ParametricActionsModel(TFModelV2):
                  model_config,
                  ):
         name = "Pa_model"
-        super(ParametricActionsModel, self).__init__(
-            obs_space, action_space, num_outputs, model_config, name)
+        super().__init__(obs_space, action_space, num_outputs, model_config, name)
 
         # get real obs space, discarding action mask
         real_obs_space = obs_space.original_space.spaces['array_obs']
