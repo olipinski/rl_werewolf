@@ -2,7 +2,9 @@ from ray.rllib.models.tf.fcnet import FullyConnectedNetwork
 from ray.rllib.models.tf.tf_modelv2 import TFModelV2
 from ray.rllib.utils import try_import_tf
 
-tf = try_import_tf()
+import logging
+
+_, tf, _ = try_import_tf()
 
 
 class ParametricActionsModel(TFModelV2):
@@ -10,25 +12,22 @@ class ParametricActionsModel(TFModelV2):
     Parametric action model used to filter out invalid action from environment
     """
 
-    def import_from_h5(self, h5_file):
-        pass
-
-    def __init__(self,
-                 obs_space,
-                 action_space,
-                 num_outputs,
-                 model_config,
-                 ):
-        name = "Pa_model"
-        super().__init__(obs_space, action_space, num_outputs, model_config, name)
+    def __init__(self, obs_space, action_space, num_outputs, model_config, name):
+        # TODO pass this properly
+        num_outputs = 9
+        super(ParametricActionsModel, self).__init__(obs_space, action_space, num_outputs, model_config, name)
 
         # get real obs space, discarding action mask
         real_obs_space = obs_space.original_space.spaces['array_obs']
 
         # define action embed model
-        self.action_embed_model = FullyConnectedNetwork(real_obs_space, action_space, num_outputs, model_config,
+        self.action_embed_model = FullyConnectedNetwork(real_obs_space,
+                                                        action_space,
+                                                        num_outputs,
+                                                        model_config,
                                                         name + "_action_embed")
-        self.register_variables(self.action_embed_model.variables())
+
+        self.logger = logging.getLogger(__name__)
 
     def forward(self, input_dict, state, seq_lens):
         """
@@ -45,7 +44,7 @@ class ParametricActionsModel(TFModelV2):
                    (outputs, state): The model output tensor of size
                        [BATCH, num_outputs]
 
-               """
+        """
         obs = input_dict['obs']
 
         # extract action mask  [batch size, num players]
@@ -61,9 +60,10 @@ class ParametricActionsModel(TFModelV2):
 
         # Mask out invalid actions (use tf.float32.min for stability)
         # size [batch size, num players * num players]
-        inf_mask = tf.maximum(tf.log(action_mask), tf.float32.min)
+        inf_mask = tf.maximum(tf.math.log(action_mask), tf.float32.min)
         inf_mask = tf.cast(inf_mask, tf.float32)
 
+        # This line is the issue TODO
         masked_actions = action_embed + inf_mask
 
         # return masked action embed and state
@@ -71,3 +71,6 @@ class ParametricActionsModel(TFModelV2):
 
     def value_function(self):
         return self.action_embed_model.value_function()
+
+    def import_from_h5(self, h5_file):
+        pass

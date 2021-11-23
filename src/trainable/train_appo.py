@@ -37,7 +37,6 @@ def mapping_dynamic(agent_id):
 
 
 if __name__ == '__main__':
-    _ = ParametricActionsModel
     ray.init(local_mode=Params.debug, logging_level=logging.DEBUG, num_gpus=1)
 
     env_configs = CONFIGS
@@ -97,5 +96,4 @@ if __name__ == '__main__':
         keep_checkpoints_num=Params.max_checkpoint_keep,
         resume=Params.resume_training,
         reuse_actors=True
-
     )

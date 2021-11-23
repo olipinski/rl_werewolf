@@ -7,7 +7,7 @@ vil = gym_ww.vil
 
 CONFIGS = dict(
 
-    existing_roles=[ww, vil],  # list of existing roles [werewolf, villanger]
+    existing_roles=[ww, vil],  # list of existing roles [werewolf, villager]
     num_players=Params.num_player,
     penalties=dict(
         # penalty dictionary
