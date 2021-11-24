@@ -51,16 +51,16 @@ def most_frequent(choices):
 def suicide_num(votes):
     """
     Return number of agents that vote for themself
-    :param votes: dict, maps agent id to target
+    :param votes: dict, maps agent idx to target
     :return: int
     """
     res = 0
-    for id, trg in votes.items():
+    for idx, trg in votes.items():
 
         if isinstance(trg, list):
-            res += 1 if id in trg else 0
+            res += 1 if idx in trg else 0
         else:
-            res += 1 if id == trg else 0
+            res += 1 if idx == trg else 0
 
     return res
 
@@ -68,12 +68,16 @@ def suicide_num(votes):
 def pprint(votes, signals, roles, logger, signal_length, level=logging.DEBUG, filtered_ids=None):
     """
     Print in a meaningful way the agent choices
-    :param filtered_ids: list[str], optional, list of ids to consider
-    :param votes: dict[int->list[int]], maps voter to targets
-    :param roles: list[str], list of roles, ordered
-    :param logger: logger
-    :param level: str, level for logger, default DEBUG
-    :return: None
+
+    Parameters
+    ----------
+    votes dict[int->list[int]], maps voter to targets
+    signals
+    roles list[str], list of roles, ordered
+    logger logger
+    signal_length
+    level str, level for logger, default DEBUG
+    filtered_ids list[str], optional, list of ids to consider
     """
 
     # filter ids
@@ -83,7 +87,7 @@ def pprint(votes, signals, roles, logger, signal_length, level=logging.DEBUG, fi
     separator = "| {:<6} |" * (1 + signal_length)
 
     to_print = "\n|{:<15} |" + separator
-    to_format = ["Role", "Vote"] + [f"Signal_{id}" for id in range(signal_length)]
+    to_format = ["Role", "Vote"] + [f"Signal_{idx}" for idx in range(signal_length)]
     to_print = to_print.format(*to_format) + "\n"
     to_print += "-" * len(to_print) + "\n"
 

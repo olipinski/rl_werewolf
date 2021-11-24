@@ -58,9 +58,9 @@ def save_results(rows: list, f_name):
         wr.writerows(rows)
 
 
-def theo_ww_revenge(N):
+def theo_ww_revenge(n):
     try:
-        return 1 - 1 / math.pow(N, math.floor(math.sqrt(N)) + 1)
+        return 1 - 1 / math.pow(n, math.floor(math.sqrt(n)) + 1)
     except ZeroDivisionError:
         return 1
 
@@ -74,5 +74,5 @@ if __name__ == '__main__':
     num_p = list(range(5, 100))
     # v_win=[theo_win_wolf(i) for i in num_p]
     v_win = [theo_ww_revenge(i) for i in num_p]
-    v_win = [theo_unite(i) for i in num_p]
+    # v_win = [theo_unite() for i in num_p]
     save_results(list(zip(num_p, v_win)), "theo_ww_revenge.csv")

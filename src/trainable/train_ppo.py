@@ -9,7 +9,6 @@ from ray.rllib.agents.ppo.ppo_tf_policy import PPOTFPolicy
 
 from gym_ww.callbacks import CustomCallbacks
 from gym_ww.envs import CONFIGS
-from src.models import ParametricActionsModel
 from src.other.custom_utils import trial_name_creator
 from gym_ww.wrappers import EvaluationWrapper
 
@@ -47,7 +46,7 @@ if __name__ == '__main__':
     configs = {
         "env": EvaluationWrapper,
         "env_config": env_configs,
-        "framework": "tfe",
+        "framework": "tf2",
         "eager_tracing": False,
         "num_workers": Params.n_workers,
         "num_gpus": Params.n_gpus,
