@@ -173,7 +173,6 @@ class WwEnv(MultiAgentEnv):
         if self.is_comm:
             return rewards
         else:
-
             rewards = {id_: val + self.penalties.get('day') for id_, val in rewards.items()}
             return execution(actions, rewards)
 
@@ -281,7 +280,7 @@ class WwEnv(MultiAgentEnv):
 
             return rewards
 
-        wolves_ids = self.get_ids(ww, alive=True)
+        wolves_ids = self.get_ids(ww)
         # filter action to get only wolves
         actions = {k: v for k, v in actions.items() if k in wolves_ids}
 

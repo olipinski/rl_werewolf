@@ -47,7 +47,7 @@ if __name__ == '__main__':
         "env": EvaluationWrapper,
         "env_config": env_configs,
         "framework": "tf2",
-        "eager_tracing": False,
+        "eager_tracing": True,
         "num_workers": Params.n_workers,
         "num_gpus": Params.n_gpus,
         "batch_mode": "complete_episodes",

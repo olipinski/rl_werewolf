@@ -5,13 +5,11 @@ from src.utils import Params
 
 class CustomCallbacks(DefaultCallbacks):
 
-    def __init__(self, legacy_callbacks_dict=None):
-        super().__init__(legacy_callbacks_dict)
+    def __init__(self):
+        super().__init__()
         self.training_policy = 0
 
-    def on_episode_end(self, worker, base_env,
-                       policies, episode,
-                       **kwargs):
+    def on_episode_end(self, worker, base_env, policies, episode, **kwargs):
         # keep consistency for different versions
         try:
             cm = base_env.envs[0].custom_metrics
@@ -52,4 +50,4 @@ class CustomCallbacks(DefaultCallbacks):
             elif vill_ww <= 0.35:
                 trainer.config['multiagent']['policies_to_train'] = "vill_p"
                 self.training_policy = 0
-                print(f"Will Trainig {vill_ww}")
+                print(f"Vill Trainig {vill_ww}")

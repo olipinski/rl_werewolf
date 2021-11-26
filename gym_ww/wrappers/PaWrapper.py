@@ -127,7 +127,7 @@ class ParametricActionWrapper(WwEnv):
         # define wrapped obs space
         observation_space = gym.spaces.Dict({
 
-            "action_mask": gym.spaces.Box(low=0, high=1, shape=(sum(self.action_space.nvec),)),
+            "action_mask": gym.spaces.Box(low=0, high=1, shape=(sum(self.action_space.nvec),), dtype=np.int32),
             "array_obs": obs,
             "dict_obs": super_obs
         })
