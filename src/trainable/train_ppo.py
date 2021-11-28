@@ -5,7 +5,7 @@ import logging
 import ray
 from ray import tune
 from ray.rllib.agents.ppo import PPOTrainer
-from ray.rllib.agents.ppo.ppo_tf_policy import PPOTFPolicy
+from ray.rllib.agents.ppo.ppo_torch_policy import PPOTorchPolicy
 
 from gym_ww.callbacks import CustomCallbacks
 from gym_ww.envs import CONFIGS
@@ -34,7 +34,7 @@ if __name__ == '__main__':
     env = EvaluationWrapper(env_configs)
 
     # define policies
-    vill_p = (PPOTFPolicy, env.observation_space, env.action_space, {})
+    vill_p = (PPOTorchPolicy, env.observation_space, env.action_space, {})
     ww_p = (RevengeTarget, env.observation_space, env.action_space, {})
 
     policies = dict(
@@ -46,8 +46,7 @@ if __name__ == '__main__':
     configs = {
         "env": EvaluationWrapper,
         "env_config": env_configs,
-        "framework": "tf2",
-        "eager_tracing": True,
+        "framework": "torch",
         "num_workers": Params.n_workers,
         "num_gpus": Params.n_gpus,
         "batch_mode": "complete_episodes",

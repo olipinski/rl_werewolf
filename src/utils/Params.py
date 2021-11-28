@@ -6,10 +6,11 @@ import os
 import shutil
 import sys
 import uuid
-
-import tensorflow as tf
 import termcolor
 
+from ray.rllib.utils import try_import_torch
+
+torch, nn = try_import_torch()
 
 def join_paths(path1, path2):
     return os.path.join(path1, path2)
@@ -57,7 +58,7 @@ class Params:
     debug = False
 
     n_cpus = multiprocessing.cpu_count() if not debug else 1
-    n_gpus = 1 if not debug and len(tf.config.list_physical_devices('GPU')) > 0 else 0
+    n_gpus = 1 if not debug and torch.cuda.device_count() > 0 else 0
     n_workers = 7 if not debug else 1
 
     ##########################

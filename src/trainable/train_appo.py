@@ -1,4 +1,4 @@
-from ray.rllib.agents.ppo.appo_tf_policy import AsyncPPOTFPolicy
+from ray.rllib.agents.ppo.appo_torch_policy import AsyncPPOTorchPolicy
 
 import logging
 
@@ -43,7 +43,7 @@ if __name__ == '__main__':
     env = EvaluationWrapper(env_configs)
 
     # define policies
-    vill_p = (AsyncPPOTFPolicy, env.observation_space, env.action_space, {})
+    vill_p = (AsyncPPOTorchPolicy, env.observation_space, env.action_space, {})
     ww_p = (RandomTarget, env.observation_space, env.action_space, {})
 
     policies = dict(
@@ -55,8 +55,7 @@ if __name__ == '__main__':
     configs = {
         "env": EvaluationWrapper,
         "env_config": env_configs,
-        "framework": "tf2",
-        "eager_tracing": True,
+        "framework": "torch",
         "num_workers": Params.n_workers,
         "num_gpus": Params.n_gpus,
         "batch_mode": "complete_episodes",

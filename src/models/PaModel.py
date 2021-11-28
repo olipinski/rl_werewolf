@@ -1,11 +1,14 @@
-from ray.rllib.models.tf.fcnet import FullyConnectedNetwork
-from ray.rllib.models.tf.tf_modelv2 import TFModelV2
-from ray.rllib.utils import try_import_tf
+import logging
 
-_, tf, _ = try_import_tf()
+from ray.rllib.models.torch.fcnet import FullyConnectedNetwork
+from ray.rllib.models.torch.torch_modelv2 import TorchModelV2
+from ray.rllib.utils import try_import_torch
 
+#torch, nn = try_import_torch()
 
-class ParametricActionsModel(TFModelV2):
+import torch
+
+class ParametricActionsModel(TorchModelV2):
     """
     Parametric action model used to filter out invalid action from environment
     """
@@ -60,10 +63,13 @@ class ParametricActionsModel(TFModelV2):
 
         # Mask out invalid actions (use tf.float32.min for stability)
         # size [batch size, num players * num players]
-        inf_mask = tf.maximum(tf.math.log(action_mask), tf.float32.min)
-        inf_mask = tf.cast(inf_mask, tf.float32)
+        inf_mask = torch.maximum(torch.log(action_mask), torch.tensor(torch.finfo(torch.float32).min))
+        inf_mask = torch.tensor(inf_mask, dtype=torch.float32)
 
         masked_actions = action_embed + inf_mask
+
+        log = logging.getLogger(__name__)
+        log.warning(masked_actions)
 
         # return masked action embed and state
         return masked_actions, state
