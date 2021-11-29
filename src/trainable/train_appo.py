@@ -1,10 +1,9 @@
-from ray.rllib.agents.ppo.appo_torch_policy import AsyncPPOTorchPolicy
-
 import logging
 
 import ray
 from ray import tune
 from ray.rllib.agents.ppo import APPOTrainer
+from ray.rllib.agents.ppo.appo_torch_policy import AsyncPPOTorchPolicy
 
 from gym_ww.callbacks import CustomCallbacks
 from gym_ww.envs import CONFIGS
@@ -36,7 +35,7 @@ def mapping_dynamic(agent_id):
 
 
 if __name__ == '__main__':
-    ray.init(local_mode=Params.debug, logging_level=logging.DEBUG, num_gpus=1)
+    ray.init(local_mode=Params.debug, logging_level=logging.INFO, num_gpus=Params.n_gpus)
 
     env_configs = CONFIGS
 

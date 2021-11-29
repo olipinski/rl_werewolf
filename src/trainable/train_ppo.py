@@ -1,5 +1,3 @@
-from src.policies.RevengeTarget import RevengeTarget
-
 import logging
 
 import ray
@@ -10,6 +8,7 @@ from ray.rllib.agents.ppo.ppo_torch_policy import PPOTorchPolicy
 from gym_ww.callbacks import CustomCallbacks
 from gym_ww.envs import CONFIGS
 from src.other.custom_utils import trial_name_creator
+from src.policies.RevengeTarget import RevengeTarget
 from gym_ww.wrappers import EvaluationWrapper
 
 from src.utils import Params
@@ -27,7 +26,7 @@ def mapping_static(agent_id):
 
 
 if __name__ == '__main__':
-    ray.init(local_mode=Params.debug, logging_level=logging.DEBUG)
+    ray.init(local_mode=Params.debug, logging_level=logging.INFO, num_gpus=Params.n_gpus)
 
     env_configs = CONFIGS
 
