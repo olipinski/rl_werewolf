@@ -145,20 +145,20 @@ class WwEnv(MultiAgentEnv):
         :return: updated rewards
         """
 
-        def execution(actions, rewards):
+        def execution(actions_exec, rewards_exec):
             """
             To be called when is execution phase
             :return:
             """
 
             # get the agent to be executed
-            target = most_frequent(actions)
+            target = most_frequent(actions_exec)
 
             # penalize for non divergent target
-            rewards = self.target_accord(target, rewards, actions)
+            rewards_exec = self.target_accord(target, rewards_exec, actions_exec)
 
             # penalize target agent
-            rewards[target] += self.penalties.get("death")
+            rewards_exec[target] += self.penalties.get("death")
 
             # kill him
             self.status_map[target] = 0
@@ -167,7 +167,7 @@ class WwEnv(MultiAgentEnv):
             # update day
             self.day_count += 1
 
-            return rewards
+            return rewards_exec
 
         # call the appropriate method depending on the phase
         if self.is_comm:
@@ -260,25 +260,25 @@ class WwEnv(MultiAgentEnv):
         :return: updated rewards
         """
 
-        def kill(actions, rewards):
+        def kill(actions_kill, rewards_kill):
 
             if not len(wolves_ids):
                 raise Exception("Game not done but wolves are dead, have reset been called?")
 
             # get agent to be eaten
-            target = most_frequent(actions)
+            target = most_frequent(actions_kill)
 
             # penalize for different ids
-            rewards = self.target_accord(target, rewards, actions)
+            rewards_kill = self.target_accord(target, rewards_kill, actions_kill)
 
             # kill agent and remember
             self.status_map[target] = 0
             self.just_died = target
 
             # penalize dead player
-            rewards[target] += self.penalties.get("death")
+            rewards_kill[target] += self.penalties.get("death")
 
-            return rewards
+            return rewards_kill
 
         wolves_ids = self.get_ids(ww)
         # filter action to get only wolves
@@ -541,33 +541,33 @@ class WwEnv(MultiAgentEnv):
         :return:
         """
 
-        def add_missing(signal, targets):
+        def add_missing(signal_add, targets_add):
             """
             Add missing values (for dead agents) to targets and signal
-            :param signal: ndarray, signal of size [num_player, signal_length]
-            :param targets: dict[int->int], mapping agent ids to targets
+            :param signal_add: ndarray, signal of size [num_player, signal_length]
+            :param targets_add: dict[int->int], mapping agent ids to targets
             :return: tuple
                 1: signal
                 2: targets
             """
 
             # if the list of outputs is full then do nothing
-            if len(targets) == self.num_players:
-                return signal, targets
+            if len(targets_add) == self.num_players:
+                return signal_add, targets_add
 
             # get indices to add
-            to_add = set(range(self.num_players)) - set(targets.keys())
+            to_add = set(range(self.num_players)) - set(targets_add.keys())
 
-            # add a list of -1 of length signal_length to the signal
-            sg = [-1] * self.signal_length
+            # add a list of -1 of length signal_length to the signal_add
+            sg_add = [-1] * self.signal_length
 
             # update dict with -1
-            targets.update({elem: -1 for elem in to_add})
+            targets_add.update({elem: -1 for elem in to_add})
 
             if self.signal_length > 0:
-                signal.update({elem: sg for elem in to_add})
+                signal_add.update({elem: sg_add for elem in to_add})
 
-            return signal, targets
+            return signal_add, targets_add
 
         def shuffle_sort(dictionary, shuffle_map, value_too=True):
             """
@@ -594,12 +594,12 @@ class WwEnv(MultiAgentEnv):
 
         def get_targets_signal(signal_p, targets_p):
             """
-            Given some initial values of signal and target perform:
+            Given some initial values of signal_add and target perform:
             1. insertion of missing elements (dead players)
             2. shuffle of ids
             3. numpy stack
             """
-            # add missing targets
+            # add missing targets_add
             signal_p, targets_p = add_missing(signal_p, targets_p)
 
             # shuffle
@@ -608,13 +608,13 @@ class WwEnv(MultiAgentEnv):
 
             # stack observations
             # make matrix out of signals of size [num_player,signal_length]
-            tg = np.asarray(list(targets_p.values()))
+            tg_p = np.asarray(list(targets_p.values()))
             if len(signal_p) > 0:
-                sg = np.stack(list(signal_p.values()))
+                sg_p = np.stack(list(signal_p.values()))
             else:
-                sg = {}
+                sg_p = {}
 
-            return tg, sg
+            return tg_p, sg_p
 
         observations = {}
 
@@ -635,7 +635,7 @@ class WwEnv(MultiAgentEnv):
             )
 
             if self.signal_length > 0:
-                obs["signal"] = sg
+                obs["signal_add"] = sg
 
             observations[idx] = obs
 
@@ -656,7 +656,7 @@ class WwEnv(MultiAgentEnv):
             )
 
             if self.signal_length > 0:
-                obs["signal"] = sg
+                obs["signal_add"] = sg
 
             observations[idx] = obs
 

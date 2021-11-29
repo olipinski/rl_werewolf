@@ -31,12 +31,6 @@ class ParametricActionsModel(TorchModelV2):
                                                         model_config,
                                                         name + "_action_embed")
 
-        # log = logging.getLogger(__name__)
-        # torch.set_printoptions(profile="full")
-        # log.warning("Inside init!")
-        # log.warning("Obs space ", obs_space)
-        # log.warning("Actions space", action_space)
-
     def forward(self, input_dict, state, seq_lens):
         """
         Override forward pass to mask out invalid actions
@@ -72,11 +66,6 @@ class ParametricActionsModel(TorchModelV2):
         inf_mask = torch.as_tensor(inf_mask, dtype=torch.float32)
 
         masked_actions = action_embed + inf_mask
-
-        # log = logging.getLogger(__name__)
-        # torch.set_printoptions(profile="full")
-        # log.warning("Inside forward!!!")
-        # log.warning("Input Dicts", input_dict)
 
         # return masked action embed and state
         return masked_actions, state
