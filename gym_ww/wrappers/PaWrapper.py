@@ -1,5 +1,10 @@
 from functools import reduce
 
+import logging
+from ray.rllib.utils import try_import_torch
+
+torch, nn = try_import_torch()
+
 import gym
 import numpy as np
 from ray.rllib.models.preprocessors import get_preprocessor
@@ -40,6 +45,7 @@ class ParametricActionWrapper(WwEnv):
         """
         obs, rewards, dones, info = super().step(action_dict)
         obs = self.wrap_obs(obs)
+
         return obs, rewards, dones, info
 
     def get_action_mask(self):
@@ -86,6 +92,7 @@ class ParametricActionWrapper(WwEnv):
 
         if self.signal_length > 0:
             mask += mask_signal()
+
         return np.asarray(mask)
 
     def wrap_obs(self, observations):
@@ -94,6 +101,10 @@ class ParametricActionWrapper(WwEnv):
         :param observations: dict[int]->dict(), observation as outputted by the wrapped environment
         :return: dict, augmented observations
         """
+
+        # log = logging.getLogger(__name__)
+        # torch.set_printoptions(profile="full")
+        # log.warning("Inside wrapper wrap function!!!!!!!!!!!!!!!!")
 
         new_obs = {}
         # define the action mask and convert it to array
@@ -104,12 +115,20 @@ class ParametricActionWrapper(WwEnv):
             # make array out of observation (flatten)
             array_obs = _make_array_from_obs(obs, self.obs_size, self.obs_spaces)
 
+            # log.warning(f"Array obs {array_obs}")
+            # log.warning(f"Array obs dtype {array_obs.dtype}")
+            #
+            # log.warning(f"Action mask {action_mask}")
+            # log.warning(f"Action mask dtype {action_mask.dtype}")
+
             # add action mask
             new_obs[agent_id] = dict(
                 action_mask=action_mask,
                 array_obs=array_obs,
                 dict_obs=obs
             )
+
+            # log.warning(f"Does it contain?? {self.observation_space.contains(new_obs)}")
 
         return new_obs
 
@@ -126,10 +145,15 @@ class ParametricActionWrapper(WwEnv):
 
         # define wrapped obs space
         observation_space = gym.spaces.Dict({
-            "action_mask": gym.spaces.Box(low=0, high=1, shape=(sum(self.action_space.nvec),)),
+            "action_mask": gym.spaces.Box(low=0, high=1, shape=(sum(self.action_space.nvec),), dtype=np.int64),
             "array_obs": obs,
             "dict_obs": super_obs
         })
+
+        # log = logging.getLogger(__name__)
+        # torch.set_printoptions(profile="full")
+        # log.warning(f"Inside wrapper obs space def!")
+        # log.warning(f"Obs space: {observation_space}")
 
         return observation_space
 
@@ -174,7 +198,7 @@ def _make_box_from_obs(space):
     highs = np.asarray(highs)
     lows = np.asarray(lows)
     # return box as high/low initialization
-    return gym.spaces.Box(high=highs, low=lows)
+    return gym.spaces.Box(high=np.float64(highs), low=np.float64(lows), dtype=np.float64)
 
 
 def _make_array_from_obs(obs, size, spaces):

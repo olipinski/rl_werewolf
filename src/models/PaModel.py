@@ -4,9 +4,8 @@ from ray.rllib.models.torch.fcnet import FullyConnectedNetwork
 from ray.rllib.models.torch.torch_modelv2 import TorchModelV2
 from ray.rllib.utils import try_import_torch
 
-#torch, nn = try_import_torch()
+torch, nn = try_import_torch()
 
-import torch
 
 class ParametricActionsModel(TorchModelV2):
     """
@@ -31,6 +30,12 @@ class ParametricActionsModel(TorchModelV2):
                                                         num_outputs,
                                                         model_config,
                                                         name + "_action_embed")
+
+        # log = logging.getLogger(__name__)
+        # torch.set_printoptions(profile="full")
+        # log.warning("Inside init!")
+        # log.warning("Obs space ", obs_space)
+        # log.warning("Actions space", action_space)
 
     def forward(self, input_dict, state, seq_lens):
         """
@@ -64,12 +69,14 @@ class ParametricActionsModel(TorchModelV2):
         # Mask out invalid actions (use tf.float32.min for stability)
         # size [batch size, num players * num players]
         inf_mask = torch.maximum(torch.log(action_mask), torch.tensor(torch.finfo(torch.float32).min))
-        inf_mask = torch.tensor(inf_mask, dtype=torch.float32)
+        inf_mask = torch.as_tensor(inf_mask, dtype=torch.float32)
 
         masked_actions = action_embed + inf_mask
 
-        log = logging.getLogger(__name__)
-        log.warning(masked_actions)
+        # log = logging.getLogger(__name__)
+        # torch.set_printoptions(profile="full")
+        # log.warning("Inside forward!!!")
+        # log.warning("Input Dicts", input_dict)
 
         # return masked action embed and state
         return masked_actions, state

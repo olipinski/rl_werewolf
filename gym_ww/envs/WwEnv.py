@@ -517,7 +517,7 @@ class WwEnv(MultiAgentEnv):
             # number in range number of phases [com night, night, com day, day]
             phase=spaces.Discrete(4),
             # targets is now a vector, having an element outputted from each agent
-            targets=gym.spaces.Box(low=-1, high=self.num_players, shape=(self.num_players,), dtype=np.int32),
+            targets=gym.spaces.Box(low=-1, high=self.num_players, shape=(self.num_players,), dtype=np.int64),
             # own id
             own_id=gym.spaces.Discrete(self.num_players),
 
@@ -528,7 +528,7 @@ class WwEnv(MultiAgentEnv):
             # signal is a matrix of dimension [num_player, signal_range]
             signal = dict(
                 signal=gym.spaces.Box(low=-1, high=self.signal_range - 1, shape=(self.num_players, self.signal_length),
-                                      dtype=np.int32))
+                                      dtype=np.int64))
             obs.update(signal)
 
         obs = gym.spaces.Dict(obs)

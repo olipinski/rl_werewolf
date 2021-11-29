@@ -2,6 +2,8 @@ from ray.rllib import Policy
 
 from src.policies.utils import random_non_wolf
 
+import logging
+
 
 class RandomTarget(Policy):
     """Hand-coded policy that returns random actions for ww."""
@@ -16,7 +18,12 @@ class RandomTarget(Policy):
                         **kwargs):
         """Compute actions on a batch of observations."""
 
-        observations = [elem.get('obs', {}) for elem in info_batch]
+        # log = logging.getLogger(__name__)
+        # #torch.set_printoptions(profile="full")
+        # log.warning("Inside policy!")
+        # log.warning(f"Obs {info_batch}")
+
+        observations = [elem for elem in info_batch]
         signal_conf = self.config['env_config']['signal_length'], self.config['env_config']['signal_range']
 
         action = random_non_wolf(self.action_space, observations, signal_conf, unite=False)
