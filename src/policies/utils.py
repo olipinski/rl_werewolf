@@ -133,14 +133,26 @@ def roles_from_info(obs, alive=True):
 
 
 def revenge_target(action_space, obs, to_kill_list, signal_conf, unite=False):
+    """
+
+    Parameters
+    ----------
+    action_space
+    obs
+    to_kill_list
+    signal_conf : tuple[int,int], length and range of the signal
+    unite
+
+    Returns
+    -------
+
+    """
     def chose_target(to_kill_lst):
         """
         Choose the most common out of the kill list
         Parameters
         ----------
         to_kill_lst : list[int], kill list
-        signal_conf : tuple[int,int], length and range of the signal
-
 
         Returns
         -------

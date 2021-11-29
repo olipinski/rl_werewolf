@@ -4,3 +4,5 @@ tensorflow-gpu~=2.7.0
 termcolor~=1.1.0
 ray~=1.8.0
 gym~=0.21.0
+gputil~=1.4.0
+tqdm~=4.62.3

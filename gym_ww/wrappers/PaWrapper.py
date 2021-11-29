@@ -1,17 +1,16 @@
 from functools import reduce
 
-import logging
-from ray.rllib.utils import try_import_torch
-
-torch, nn = try_import_torch()
-
 import gym
 import numpy as np
+
 from ray.rllib.models.preprocessors import get_preprocessor
 from ray.rllib.utils.error import UnsupportedSpaceException
+from ray.rllib.utils import try_import_torch
 
 from gym_ww.envs.WwEnv import WwEnv
 from gym_ww import ww
+
+torch, nn = try_import_torch()
 
 
 class ParametricActionWrapper(WwEnv):

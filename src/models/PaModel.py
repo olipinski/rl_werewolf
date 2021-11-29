@@ -1,5 +1,3 @@
-import logging
-
 from ray.rllib.models.torch.fcnet import FullyConnectedNetwork
 from ray.rllib.models.torch.torch_modelv2 import TorchModelV2
 from ray.rllib.utils import try_import_torch
