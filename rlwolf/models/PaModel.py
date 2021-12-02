@@ -10,6 +10,7 @@ class ParametricActionsModel(TorchModelV2):
     Parametric action model used to filter out invalid action from environment
     """
 
+    # noinspection PyUnusedLocal
     def __init__(self,
                  obs_space,
                  action_space,

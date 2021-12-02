@@ -21,7 +21,6 @@ class Episode:
 
         },
         day: same as night
-
     }
     """
 

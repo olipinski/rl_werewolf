@@ -21,7 +21,7 @@ class WwEnv(MultiAgentEnv):
 
     def __init__(self, configs, ww_num=None):
         """
-        :param ww_num: int, number of werewolves
+        param ww_num: int, number of werewolves
         """
 
         # if config is dict
@@ -137,7 +137,7 @@ class WwEnv(MultiAgentEnv):
 
     def day(self, actions, rewards):
         """
-        Run the day phase, that is execute target based on votes and reward accordingly or the voting
+        Run the day phase, that is, execute target based on votes and reward accordingly or the voting
         :param actions: dict, map id_ to vote
         :param rewards: dict, maps agent id_ to curr reward
         :return: updated rewards
@@ -356,7 +356,7 @@ class WwEnv(MultiAgentEnv):
         """
         Convert everything in correct format.
         1. Filter out vill when phase is 0
-        2. Filter out dead agents if they did not just died (done in order to penalize just dead agents)
+        2. Filter out dead agents if they did not just die (done in order to penalize just dead agents)
         3. add name to agents
         4. convert reward to floats
         """

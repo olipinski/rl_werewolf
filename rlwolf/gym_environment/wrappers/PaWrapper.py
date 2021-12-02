@@ -143,8 +143,8 @@ def _make_box_from_obs(space):
     """
     Convert a spaces.Dict to a spaces.Box given highs/lows vectors initialization.
 
-    :param space: gym.spaces.Dict
-    :return: gym.spaces.Box
+    param space: gym.spaces.Dict
+    return: gym.spaces.Box
     """
     sp = list(space.spaces.values())
     lows = []

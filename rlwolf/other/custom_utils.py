@@ -52,7 +52,7 @@ def most_frequent(choices):
 
 def suicide_num(votes):
     """
-    Return number of agents that vote for themself
+    Return number of agents that voted for themselves
     :param votes: dict, maps agent idx to target
     :return: int
     """

@@ -42,10 +42,10 @@ class CustomCallbacks(DefaultCallbacks):
 
                 trainer.config['multiagent']['policies_to_train'] = "wolf_p"
                 self.training_policy = 1
-                print(f"Wolf Trainig: {vill_ww}")
+                print(f"Wolf Training: {vill_ww}")
 
             # if is the start and the ww are loosing
             elif vill_ww <= 0.35:
                 trainer.config['multiagent']['policies_to_train'] = "vill_p"
                 self.training_policy = 0
-                print(f"Vill Trainig {vill_ww}")
+                print(f"Vill Training {vill_ww}")

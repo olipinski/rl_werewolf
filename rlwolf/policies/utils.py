@@ -106,7 +106,7 @@ def roles_from_info(obs, alive=True):
     dead_ids: list, ids of dead players
 
     """
-    # check if infobatch is non empty
+    # check if infobatch is non-empty
     assert any(obs), "Info batch must be non empty"
 
     # get status map
@@ -147,6 +147,7 @@ def revenge_target(action_space, obs, to_kill_list, signal_conf, unite=False):
     -------
 
     """
+
     def chose_target(to_kill_lst):
         """
         Choose the most common out of the kill list
