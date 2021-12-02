@@ -1,7 +1,5 @@
 import numpy as np
-
-from src.utils import Params
-from src.utils.serialization import dump_pkl, load_pkl
+from rlwolf.utils.serialization import dump_pkl, load_pkl
 
 
 class Prof:
@@ -10,15 +8,18 @@ class Prof:
     in more episodes
     """
 
-    def __init__(self, episode_file=None):
+    def __init__(self, episode_file=None, log_step=None):
 
         # dictionary mapping episode instance to an episode class
 
         if episode_file is not None:
             self.episodes = load_pkl(episode_file)
-        else:
+
+        if self.episodes is None:
             self.episodes = dict()
-        self.log_step = Params.log_step
+
+        self.log_step = log_step
+        self.episode_file = episode_file
 
     def add_episode(self, episode_count, episode):
         """
@@ -29,16 +30,16 @@ class Prof:
         """
         # compute complete info for episodes
         self.episodes[episode_count] = episode
-        dump_pkl(self.episodes, Params.episode_file)
+        dump_pkl(self.episodes, self.episode_file)
 
     def compare_first_targets(self, episode_range: list):
 
-        f, l = episode_range
-        rg = list(self.episodes)[f:l]
-        f = rg[0]
-        l = rg[-1]
+        first, last = episode_range
+        rg = list(self.episodes)[first:last]
+        first = rg[0]
+        last = rg[-1]
 
-        eps = [v for k, v in self.episodes.items() if f <= k <= l]
+        eps = [v for k, v in self.episodes.items() if first <= k <= last]
         trg = [ep.targets[0] for ep in eps]
 
         return np.stack(trg)

@@ -1,16 +1,10 @@
 from ray.rllib import Policy
 
-from src.policies.utils import revenge_target
+from rlwolf.policies.utils import random_non_wolf
 
 
-class RevengeTarget(Policy):
-    """Hand-coded policy that returns the id of an agent who chose the
-    current one in the last run, if none then random """
-
-    def __init__(self, observation_space, action_space, config):
-        super().__init__(observation_space, action_space, config)
-
-        self.to_kill_list = []
+class RandomTargetUnite(Policy):
+    """Hand-coded policy that returns random actions. WW will always return a non ww index."""
 
     def compute_actions(self,
                         obs_batch,
@@ -21,13 +15,12 @@ class RevengeTarget(Policy):
                         episodes=None,
                         **kwargs):
         """Compute actions on a batch of observations."""
-
         observations = [elem.get('obs', {}) for elem in info_batch]
         signal_conf = self.config['env_config']['signal_length'], self.config['env_config']['signal_range']
 
-        actions, self.to_kill_list = revenge_target(self.action_space, observations, self.to_kill_list, signal_conf)
+        action = random_non_wolf(self.action_space, observations, signal_conf, unite=True)
 
-        return actions, [], {}
+        return action, [], {}
 
     def get_weights(self):
         return None

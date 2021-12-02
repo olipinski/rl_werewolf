@@ -1,0 +1,2 @@
+ww = "werewolf"
+vil = "villager"

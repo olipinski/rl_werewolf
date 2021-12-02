@@ -1,4 +1,4 @@
-from src.evaluation import Prof
+from rlwolf.evaluation import Prof
 
 file = "/Users/dizzi/Desktop/episode.pkl"
 p = Prof(episode_file=file)

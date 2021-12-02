@@ -2,9 +2,9 @@ import logging
 import random
 
 import numpy as np
+from absl import flags
 
-from src.utils import Params
-
+FLAGS = flags.FLAGS
 
 def str_id_map(str_list):
     """
@@ -139,5 +139,5 @@ def downsample(vector, rate, maximum, minimum=0):
 
 def trial_name_creator(something):
     name = str(something).rsplit("_", 1)[0]
-    name = f"{name}_{Params.unique_id}"
+    name = f"{name}_{FLAGS.unique_id}"
     return name

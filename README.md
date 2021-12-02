@@ -43,7 +43,7 @@ Most of the developing phase in reported in the [Journal](Resources/MarkDowns/Jo
 
 For a detailed adescription on how the whole architecture has been build please refer to the [Specs file](Resources/MarkDowns/Specs.md).
 
-In the [enviroment dir](gym_ww/envs) there is a [README](gym_ww/envs/README.md) relative to the developing of each env and the differences between them.
+In the [enviroment dir](rlwolf/gym_environment/envs) there is a [README](rlwolf/gym_environment/envs/README.md) relative to the developing of each env and the differences between them.
 
 Finally you can find my [theis](Resources/thesis.pdf) in which all the findings and procedures are described.
 

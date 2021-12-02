@@ -1,7 +1,5 @@
 from ray.rllib.agents.callbacks import DefaultCallbacks
 
-from src.utils import Params
-
 
 class CustomCallbacks(DefaultCallbacks):
 
@@ -35,7 +33,7 @@ class CustomCallbacks(DefaultCallbacks):
         # training_policy = trainer.config['multiagent']['policies_to_train'][0]
         mapping = trainer.config['multiagent']['policy_mapping_fn'].__name__
 
-        if Params.alternating:
+        if trainer.config["env_config"]['alternating']:
             # if the ww are loosing
             if vill_ww >= 0.65:
                 # is the start and switch the mapping to the dynamic one

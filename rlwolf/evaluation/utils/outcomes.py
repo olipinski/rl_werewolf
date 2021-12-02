@@ -2,7 +2,7 @@ from math import floor, sqrt
 
 from tqdm import tqdm
 
-from src.evaluation.utils.theo_winWw import save_results
+from rlwolf.evaluation.utils.theo_winWw import save_results
 
 
 def outcome(ww, vill, prob, res):
@@ -26,7 +26,7 @@ def outcome(ww, vill, prob, res):
         res = outcome(n_ww - 1, n_vill, p_ww, res)
         res = outcome(n_ww, n_vill - 1, p_vill, res)
     except RecursionError:
-        a = 1
+        pass
 
     return res
 

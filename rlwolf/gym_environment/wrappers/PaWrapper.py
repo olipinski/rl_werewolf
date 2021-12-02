@@ -7,8 +7,8 @@ from ray.rllib.models.preprocessors import get_preprocessor
 from ray.rllib.utils.error import UnsupportedSpaceException
 from ray.rllib.utils import try_import_torch
 
-from gym_ww.envs.WwEnv import WwEnv
-from gym_ww import ww
+from rlwolf.gym_environment.WwEnv import WwEnv
+from rlwolf.gym_environment import ww
 
 torch, nn = try_import_torch()
 

@@ -9,7 +9,8 @@ def dump_pkl(df, file_name):
     :param file_name: dumped file name
     :return:
     """
-    name = file_name.split("/")[-1]
+
+    # name = file_name.split("/")[-1]
 
     with open(file_name, "wb") as file:
         cPickle.dump(df, file, protocol=pickle.HIGHEST_PROTOCOL)

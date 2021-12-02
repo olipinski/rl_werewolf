@@ -7,23 +7,21 @@ from gym import spaces
 from ray.rllib import MultiAgentEnv
 from ray.rllib.env import EnvContext
 
-import gym_ww
-from src.other.custom_utils import most_frequent
+from rlwolf import gym_environment
+from rlwolf.other.custom_utils import most_frequent
 
 ####################
 # names for roles
 ####################
-ww = gym_ww.ww
-vil = gym_ww.vil
+ww = gym_environment.ww
+vil = gym_environment.vil
 
 
 class WwEnv(MultiAgentEnv):
 
     def __init__(self, configs, ww_num=None):
         """
-
         :param ww_num: int, number of werewolves
-
         """
 
         # if config is dict
