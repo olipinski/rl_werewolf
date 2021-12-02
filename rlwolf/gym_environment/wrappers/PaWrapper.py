@@ -2,13 +2,12 @@ from functools import reduce
 
 import gym
 import numpy as np
-
 from ray.rllib.models.preprocessors import get_preprocessor
-from ray.rllib.utils.error import UnsupportedSpaceException
 from ray.rllib.utils import try_import_torch
+from ray.rllib.utils.error import UnsupportedSpaceException
 
-from rlwolf.gym_environment.WwEnv import WwEnv
 from rlwolf.gym_environment import ww
+from rlwolf.gym_environment.WwEnv import WwEnv
 
 torch, nn = try_import_torch()
 

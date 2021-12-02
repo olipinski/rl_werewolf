@@ -3,25 +3,24 @@ import os.path
 import sys
 import uuid
 
-from absl import flags
-
 import ray
-from ray.rllib.models import ModelCatalog
+from absl import flags
 from ray import tune
-from ray.rllib.agents.ppo import PPOTrainer
-from ray.rllib.agents.ppo.ppo_torch_policy import PPOTorchPolicy
 from ray.rllib.agents.ppo import APPOTrainer
+from ray.rllib.agents.ppo import PPOTrainer
 from ray.rllib.agents.ppo.appo_torch_policy import AsyncPPOTorchPolicy
+from ray.rllib.agents.ppo.ppo_torch_policy import PPOTorchPolicy
+from ray.rllib.models import ModelCatalog
 from ray.rllib.utils import try_import_torch
 
-from rlwolf.gym_environment.callbacks import CustomCallbacks
 from rlwolf.gym_environment import ww, vil
-from rlwolf.other.custom_utils import trial_name_creator
-from rlwolf.policies.RevengeTarget import RevengeTarget
-from rlwolf.policies.RandomTarget import RandomTarget
-from rlwolf.policies.RandomTargetUnite import RandomTargetUnite
+from rlwolf.gym_environment.callbacks import CustomCallbacks
 from rlwolf.gym_environment.wrappers import EvaluationWrapper
 from rlwolf.models.PaModel import ParametricActionsModel
+from rlwolf.other.custom_utils import trial_name_creator
+from rlwolf.policies.RandomTarget import RandomTarget
+from rlwolf.policies.RandomTargetUnite import RandomTargetUnite
+from rlwolf.policies.RevengeTarget import RevengeTarget
 from rlwolf.utils.dir_manage import initialize_dirs, empty_dirs
 
 # Register our custom model
@@ -67,7 +66,6 @@ logmatchfile = os.path.join(gamelogdir, f"{unid}_log.log")
 # FLAG Definitions
 
 # Directory flags
-
 flags.DEFINE_string("unique_id", unid, "Unique ID for this run."
                                        "Default will be generated with UUID4.")
 flags.DEFINE_string("ww_working_dir", wdir, "Working directory")
@@ -110,12 +108,19 @@ flags.DEFINE_enum("ww_policy", "random", ["random", "revenge", "unite"], "Which 
 flags.DEFINE_integer("batch_size", 500, "The batch size for Ray Tune to use.")
 flags.DEFINE_integer("rollout_length", 100, "The rollout fragment length for Ray Tune to use.")
 
+# QOL Flags
+flags.DEFINE_boolean("help", False, "Display the help message.")
+
 # Main method
 if __name__ == '__main__':
 
     FLAGS(sys.argv)
 
     flag_dict = FLAGS.flag_values_dict()
+
+    if FLAGS.help:
+        print(FLAGS)
+        exit(0)
 
     print(flag_dict)
 

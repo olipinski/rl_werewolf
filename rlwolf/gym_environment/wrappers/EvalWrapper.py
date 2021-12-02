@@ -6,8 +6,8 @@ from ray.rllib.env import EnvContext
 
 from rlwolf import gym_environment
 from rlwolf.evaluation import Prof, Episode
-from rlwolf.other.custom_utils import pprint, suicide_num, most_frequent
 from rlwolf.gym_environment.wrappers.PaWrapper import ParametricActionWrapper
+from rlwolf.other.custom_utils import pprint, suicide_num, most_frequent
 
 ww = gym_environment.ww
 vil = gym_environment.vil
