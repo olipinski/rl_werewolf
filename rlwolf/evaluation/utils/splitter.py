@@ -22,9 +22,9 @@ if __name__ == '__main__':
     base_name = file_name.split(".")[0]
 
     with open(f"{base_name}_odd.csv", "w") as f:
-        wr = csv.writer(f, dialect='excel')
+        wr = csv.writer(f)
         wr.writerows(odd_r)
 
     with open(f"{base_name}_even.csv", "w") as f:
-        wr = csv.writer(f, dialect='excel')
+        wr = csv.writer(f)
         wr.writerows(even_r)

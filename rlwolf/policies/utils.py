@@ -34,15 +34,15 @@ def random_non_wolf(action_space, obs, signal_conf, unite=False):
     phase = obs[0]['phase']
 
     # get the roles from the ids
-    all_ids, ww_ids, vil_ids, _ = roles_from_info(obs, alive=True)
+    all_ids, ww_ids, vil_ids, _ = roles_from_info(obs)
 
     # communication phase
     if phase in [1, 3]:
-        targets = [random.choice(all_ids) for _ in obs]
+        targets = [random.choice(list(all_ids)) for _ in obs]
 
     elif unite:
 
-        t = random.choice(vil_ids)
+        t = random.choice(list(vil_ids))
         targets = [t for _ in obs]
 
     # is use phase then ww are allowed to target each other during day
@@ -50,11 +50,11 @@ def random_non_wolf(action_space, obs, signal_conf, unite=False):
     else:
         # if night do not vote for each other
         if phase == 0:
-            targets = [random.choice(vil_ids) for _ in obs]
+            targets = [random.choice(list(vil_ids)) for _ in obs]
         # else vote randomly
         else:
             # return random choice
-            targets = [random.choice(all_ids) for _ in obs]
+            targets = [random.choice(list(all_ids)) for _ in obs]
 
     return add_random_signal(signal_conf, targets)
 
@@ -100,7 +100,7 @@ def roles_from_info(obs, alive=True):
 
     Returns
     -------
-    all_ids: list, all the avaiable ids
+    all_ids: list, all the available ids
     ww_ids: list, list of ww ids
     vill_ids: list, list of vil ids
     dead_ids: list, ids of dead players
@@ -171,7 +171,7 @@ def revenge_target(action_space, obs, to_kill_list, signal_conf, unite=False):
         return random_non_wolf(action_space, obs, signal_conf, unite=unite), to_kill_list
 
     # get the roles from the ids
-    all_ids, ww_ids, vil_ids, dead_ids = roles_from_info(obs, alive=True)
+    all_ids, ww_ids, vil_ids, dead_ids = roles_from_info(obs)
 
     # remove dead players from the to kill list
     for dead in dead_ids:

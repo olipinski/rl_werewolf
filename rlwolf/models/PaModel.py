@@ -15,10 +15,9 @@ class ParametricActionsModel(TorchModelV2):
                  action_space,
                  num_outputs,
                  model_config,
-                 name,
-                 **kw):
+                 name):
         num_outputs = 9
-        super(ParametricActionsModel, self).__init__(obs_space, action_space, num_outputs, model_config, name, **kw)
+        super(ParametricActionsModel, self).__init__(obs_space, action_space, num_outputs, model_config, name)
 
         # get real obs space, discarding action mask
         real_obs_space = obs_space.original_space.spaces['array_obs']

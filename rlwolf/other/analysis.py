@@ -31,13 +31,13 @@ def measure_influence(cur_targets, prev_targets, flexibility):
         to_remove = to_remove[:, 0]
         to_remove = np.unique(to_remove)
 
-        ct = cur_targets
-        pt = prev_targets
+        ct_f = cur_targets
+        pt_f = prev_targets
 
-        ct = np.delete(ct, to_remove, axis=0)
-        pt = np.delete(pt, to_remove, axis=0)
+        ct_f = np.delete(ct_f, to_remove, axis=0)
+        pt_f = np.delete(pt_f, to_remove, axis=0)
 
-        return ct, pt
+        return ct_f, pt_f
 
     ct, pt = filter_dead_players()
 
@@ -87,5 +87,3 @@ def load_analyze_csv(path2file, min_step=0):
         data = [elem[2] for elem in data]
         data = [float(elem) for elem in data]
         print(f"{np.mean(data)} +- {np.std(data)}")
-
-# load_analyze_csv("/home/dizzi/Downloads/accord_mean.csv",min_step=100)

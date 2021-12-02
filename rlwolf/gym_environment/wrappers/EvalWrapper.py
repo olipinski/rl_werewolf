@@ -58,7 +58,7 @@ class EvaluationWrapper(ParametricActionWrapper):
             f" {vil} and {self.num_wolves} {ww}")
 
         # todo: find a way to split when there are multiple workers
-        self.prof = Prof(log_step=self.log_step,episode_file=self.episode_file)
+        self.prof = Prof(log_step=self.log_step, episode_file=self.episode_file)
         self.episode = Episode(self.num_players)
         self.episode_count = 1
 
@@ -186,7 +186,7 @@ class EvaluationWrapper(ParametricActionWrapper):
                 raise AttributeError("Accord garter than 1")
 
         elif self.phase == 1:
-            were_wolves = self.get_ids(ww, alive=True, include_just_died=True)
+            were_wolves = self.get_ids(ww, include_just_died=True)
             were_wolves = {k: v for k, v in targets.items() if k in were_wolves}
             chosen = most_frequent(were_wolves)
             accord = sum([1 for t in were_wolves.values() if t == chosen]) / len(were_wolves)
@@ -202,7 +202,7 @@ class EvaluationWrapper(ParametricActionWrapper):
             self.normalize_metrics()
 
             # if episode is over print winner
-            alive_ww = self.get_ids(ww, alive=True)
+            alive_ww = self.get_ids(ww)
 
             if len(alive_ww) > 0:
                 self.custom_metrics['win_wolf'] += 1
@@ -244,7 +244,7 @@ class EvaluationWrapper(ParametricActionWrapper):
 
         # print actions
         # fixme
-        filtered_ids = self.get_ids(ww, alive=True) if self.phase in [0, 1] else self.get_ids('all', alive=True)
+        filtered_ids = self.get_ids(ww) if self.phase in [0, 1] else self.get_ids('all')
 
         if self.phase in [1, 3]:
             filtered_ids.append(self.just_died)
@@ -276,7 +276,7 @@ class EvaluationWrapper(ParametricActionWrapper):
         if self.is_done:
 
             # if episode is over print winner
-            alive_ww = self.get_ids(ww, alive=True)
+            alive_ww = self.get_ids(ww)
 
             msg = copy.copy(self.win_brackets)
 

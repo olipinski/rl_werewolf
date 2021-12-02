@@ -32,16 +32,16 @@ def theo_win_wolf(n_players):
     m = math.floor(math.sqrt(n_players))
     n = n_players
 
-    teoretical_p_win = 1
+    theoretical_p_win = 1
 
     for i in range(m + 1):
         num = comb(m, i) * double_factorial(n - i)
         num *= (-1) ** i
         den = double_factorial(n) * double_factorial((n % 2) - i)
         nd = num / den
-        teoretical_p_win -= nd
+        theoretical_p_win -= nd
 
-    return teoretical_p_win
+    return theoretical_p_win
 
 
 def save_results(rows: list, f_name):
@@ -54,7 +54,7 @@ def save_results(rows: list, f_name):
     rows.insert(0, headers)
 
     with open(f_name, "w") as file:
-        wr = csv.writer(file, dialect='excel')
+        wr = csv.writer(file)
         wr.writerows(rows)
 
 

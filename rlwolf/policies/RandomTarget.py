@@ -1,4 +1,7 @@
-from ray.rllib import Policy
+from typing import Optional, Tuple, Dict, Union, List
+
+from ray.rllib import Policy, SampleBatch
+from ray.rllib.utils.typing import ModelGradients, TensorType
 
 from rlwolf.policies.utils import random_non_wolf
 
@@ -19,7 +22,7 @@ class RandomTarget(Policy):
         observations = [elem for elem in info_batch]
         signal_conf = self.config['env_config']['signal_length'], self.config['env_config']['signal_range']
 
-        action = random_non_wolf(self.action_space, observations, signal_conf, unite=False)
+        action = random_non_wolf(self.action_space, observations, signal_conf)
 
         if not self.action_space.contains(action[0]):
             pass
@@ -32,6 +35,41 @@ class RandomTarget(Policy):
         return None
 
     def set_weights(self, weights):
+        pass
+
+    def compute_log_likelihoods(self, actions: Union[List[TensorType], TensorType],
+                                obs_batch: Union[List[TensorType], TensorType],
+                                state_batches: Optional[List[TensorType]] = None,
+                                prev_action_batch: Optional[Union[List[TensorType],
+                                                                  TensorType]] = None,
+                                prev_reward_batch: Optional[Union[List[TensorType],
+                                                                  TensorType]] = None,
+                                actions_normalized: bool = True) -> TensorType:
+        pass
+
+    def compute_gradients(self, postprocessed_batch: SampleBatch) -> \
+            Tuple[ModelGradients, Dict[str, TensorType]]:
+        pass
+
+    def apply_gradients(self, gradients: ModelGradients) -> None:
+        pass
+
+    def load_batch_into_buffer(self, batch: SampleBatch, buffer_index: int = 0) -> int:
+        pass
+
+    def get_num_samples_loaded_into_buffer(self, buffer_index: int = 0) -> int:
+        pass
+
+    def learn_on_loaded_batch(self, offset: int = 0, buffer_index: int = 0):
+        pass
+
+    def export_model(self, export_dir: str, onnx: Optional[int] = None) -> None:
+        pass
+
+    def import_model_from_h5(self, import_file: str) -> None:
+        pass
+
+    def export_checkpoint(self, export_dir: str) -> None:
         pass
 
     def learn_on_batch(self, samples):

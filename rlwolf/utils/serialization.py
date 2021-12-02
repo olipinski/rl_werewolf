@@ -1,4 +1,4 @@
-import _pickle as cPickle
+import _pickle as cpickle
 import pickle
 
 
@@ -13,7 +13,7 @@ def dump_pkl(df, file_name):
     # name = file_name.split("/")[-1]
 
     with open(file_name, "wb") as file:
-        cPickle.dump(df, file, protocol=pickle.HIGHEST_PROTOCOL)
+        cpickle.dump(df, file, protocol=pickle.HIGHEST_PROTOCOL)
 
     # print(f"{name} dumped")
 
@@ -24,7 +24,7 @@ def load_pkl(file_name):
 
     try:
         with open(file_name, "rb") as file_name:
-            df = cPickle.load(file_name)
+            df = cpickle.load(file_name)
     except FileNotFoundError:
         print("No file found!")
         return None

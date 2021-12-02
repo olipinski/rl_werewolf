@@ -49,7 +49,7 @@ if __name__ == '__main__':
 
     rows = []
     for idx in tqdm(rng):
-        res = experiment(idx)
-        rows.append((idx, res))
+        resx = experiment(idx)
+        rows.append((idx, resx))
 
         save_results(list(rows), "outcomes.csv")

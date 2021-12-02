@@ -1,21 +1,6 @@
-
 rlwolf/gym_environment/__pycache__/
 rlwolf/gym_environment/envs/__pycache__/
 __pycache__/
 .idea/
-gym_ww.egg-info/
-
-ray_results/
 
 log_dir/
-
-dist/
-
-Resources/.DS_Store
-
-*.zip
-
-build/*
-rl_werewolf.egg-info/
-
-.DS_Store

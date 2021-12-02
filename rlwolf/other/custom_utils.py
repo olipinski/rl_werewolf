@@ -2,9 +2,11 @@ import logging
 import random
 
 import numpy as np
+# noinspection PyPackageRequirements
 from absl import flags
 
 FLAGS = flags.FLAGS
+
 
 def str_id_map(str_list):
     """
@@ -71,13 +73,13 @@ def pprint(votes, signals, roles, logger, signal_length, level=logging.DEBUG, fi
 
     Parameters
     ----------
-    votes dict[int->list[int]], maps voter to targets
-    signals
-    roles list[str], list of roles, ordered
-    logger logger
-    signal_length
-    level str, level for logger, default DEBUG
-    filtered_ids list[str], optional, list of ids to consider
+    votes: dict[int->list[int]], maps voter to targets
+    signals:
+    roles: list[str], list of roles, ordered
+    logger: logger
+    signal_length:
+    level: str, level for logger, default DEBUG
+    filtered_ids: list[str], optional, list of ids to consider
     """
 
     # filter ids

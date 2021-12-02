@@ -11,9 +11,12 @@ def initialize_dirs(dirs: list) -> None:
 
 def empty_dirs(to_empty: list) -> None:
     for folder in to_empty:
-        for the_file in os.listdir(folder):
-            file_path = os.path.join(folder, the_file)
-            if os.path.isfile(file_path):
-                os.unlink(file_path)
-            elif os.path.isdir(file_path):
-                shutil.rmtree(file_path)
+        # Check if folder exists first
+        if os.path.isdir(folder):
+            # Proceed to clean
+            for the_file in os.listdir(folder):
+                file_path = os.path.join(folder, the_file)
+                if os.path.isfile(file_path):
+                    os.unlink(file_path)
+                elif os.path.isdir(file_path):
+                    shutil.rmtree(file_path)

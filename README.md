@@ -4,14 +4,14 @@
 - Mafia (Mafia, International)
 - Lupus in fabula (Wolf from fable, Latin)
 - Pueblo duerme (Sleeping villagers, Spain)
-- Los Hombres Lobo de Castronegro (Spanish, Spain)
-- Μια Νύχτα στο Palermo (One night in Palermo, Greek)
-- Městečko palermo (Town of Palermo, Check)
-- 狼人殺 (Werewolf kill, Chinese)
-- Libahunt (Werewolf,Estonia)
-- Loup Garous (Werewolves, French)
-- Werewölfe (Werewolves, German)
-- Weerwolven (Werewolves, Dutch)
+- Los Hombres Lobo de Castronegro (The Werewolves of Castronegro, Spain)
+- Μια Νύχτα στο Palermo (One night in Palermo, Greece)
+- Městečko palermo (Town of Palermo, Czechia)
+- 狼人殺 (Werewolf Kill, China)
+- Libahunt (Werewolf , Estonia)
+- Loup Garous (Werewolves, France)
+- Werewölfe (Werewolves, Germany)
+- Weerwolven (Werewolves, Netherlands)
 
 In its most basic version there are __villagers__ (aka. vil) and __werewolves__ (aka.  ww). 
 Notice that the number of wolves should always be less than the number of vil.
@@ -19,8 +19,8 @@ Notice that the number of wolves should always be less than the number of vil.
 The game develops into tho phases, _night_ and _day_.
 
 ### Night
-At _night_ time everyone closes their eyes, this prevents players to know which roles are assigned to other playser. 
-Taking turnes each non vil player open his eyes and choose an action.
+At _night_ time everyone closes their eyes, this prevents players to know which roles are assigned to other player. 
+Taking turns each non vil player open his eyes and choose an action.
 When only ww are present they open their eyes and choose someone to eat.
 
 ### Day
@@ -50,7 +50,7 @@ command line options are explained in the train.py file, or additionally through
 - [MA obs/action spaces utils](https://github.com/koulanurag/ma-gym/tree/master/ma_gym/envs/utils)
 - [Discussion on ma openAi](https://github.com/openai/gym/issues/934)
 
-##### Ray/Rllib
+##### Ray/RLlib
 - [Ray Example](https://github.com/ray-project/ray/blob/master/rllib/examples/rock_paper_scissors_multiagent.py)
 - [multi-agent-and-hierarchical](https://ray.readthedocs.io/en/latest/rllib-env.html#multi-agent-and-hierarchical)
 - [Docs](https://ray.readthedocs.io/en/latest/index.html)

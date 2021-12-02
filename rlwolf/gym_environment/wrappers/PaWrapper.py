@@ -48,43 +48,43 @@ class ParametricActionWrapper(WwEnv):
 
     def get_action_mask(self):
         """
-        Estimates action mask for current observation
+        Estimates action mask_t for current observation
         Return a boolean vector in which indexOf(zeros) are invalid actions
         :return: np.array
         """
 
         def mask_targets():
             """
-            Generate mask for targets
+            Generate mask_t for targets
             :return:
             """
             # filter out dead agents
-            mask = self.status_map.copy()
+            mask_t = self.status_map.copy()
 
             # if is night
             if self.is_night:
                 # filter out wolves
-                ww_ids = self.get_ids(ww, alive=True)
+                ww_ids = self.get_ids(ww)
                 for idx in ww_ids:
-                    mask[idx] = 0
+                    mask_t[idx] = 0
 
-            # apply shuffle to mask
-            mask = [mask[self.unshuffle_map[idx]] for idx in range(len(mask))]
+            # apply shuffle to mask_t
+            mask_t = [mask_t[self.unshuffle_map[idx]] for idx in range(len(mask_t))]
 
-            return mask
+            return mask_t
 
         def mask_signal():
             """
-            Generate mask for signal
+            Generate mask_t for signal
             :return: list[bool]: 1 for allowable returns, 0 otherwise
             """
-            mask = [0 for _ in range(self.num_players)] * self.signal_length
+            mask_s = [0 for _ in range(self.num_players)] * self.signal_length
             range_ = self.signal_range
 
             for i in range(self.signal_length):
                 offset = i * self.num_players
-                mask[offset:offset + range_] = [1] * range_
-            return mask
+                mask_s[offset:offset + range_] = [1] * range_
+            return mask_s
 
         mask = mask_targets()
 
