@@ -1,5 +1,7 @@
 # WereWolf Game
 
+Our repository is based on the original code from this [repo](https://github.com/nicofirst1/rl_werewolf).
+
 [Werewolf](https://en.wikipedia.org/wiki/Werewolf_social_deduction_game) is a simple deduction game that can be played
 with at least 5 players. It is also knows as:
 

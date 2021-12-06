@@ -232,7 +232,8 @@ if __name__ == '__main__':
         # model configs
         "model": {
             "use_lstm": True,
-            "custom_model": "pa_model",  # using custom parametric action model
+            "no_final_linear": True,
+            "custom_model": "pa_model",  # Using custom parametric action model
         },
         "multiagent": {
             "policies": policies,
@@ -242,7 +243,7 @@ if __name__ == '__main__':
         },
     }
 
-    # Update config with params for APPO or PPO
+    # Update config with params for either APPO or PPO
     configs.update(temp_conf_dict)
 
     analysis = tune.run(

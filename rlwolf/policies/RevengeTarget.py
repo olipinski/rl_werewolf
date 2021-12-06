@@ -1,6 +1,7 @@
 from typing import Optional, Tuple, Dict, Union, List
 
 from ray.rllib import Policy, SampleBatch
+from ray.rllib.models import ModelV2, ActionDistribution
 from ray.rllib.utils.typing import ModelGradients, TensorType
 
 from rlwolf.policies.utils import revenge_target
@@ -71,6 +72,10 @@ class RevengeTarget(Policy):
         pass
 
     def export_checkpoint(self, export_dir: str) -> None:
+        pass
+
+    def loss(self, model: ModelV2, dist_class: ActionDistribution, train_batch: SampleBatch) \
+            -> Union[TensorType, List[TensorType]]:
         pass
 
     def learn_on_batch(self, samples):

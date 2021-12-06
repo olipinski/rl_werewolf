@@ -75,7 +75,7 @@ class ParametricActionWrapper(WwEnv):
 
         def mask_signal():
             """
-            Generate mask_t for signal
+            Generate mask_s for signal
             :return: list[bool]: 1 for allowable returns, 0 otherwise
             """
             mask_s = [0 for _ in range(self.num_players)] * self.signal_length

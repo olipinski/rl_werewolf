@@ -1,11 +1,12 @@
 from ray.rllib.models.torch.fcnet import FullyConnectedNetwork
 from ray.rllib.models.torch.torch_modelv2 import TorchModelV2
 from ray.rllib.utils import try_import_torch
+from ray.rllib.utils.torch_utils import FLOAT_MIN, FLOAT_MAX
 
 torch, nn = try_import_torch()
 
 
-class ParametricActionsModel(TorchModelV2):
+class ParametricActionsModel(TorchModelV2, nn.Module):
     """
     Parametric action model used to filter out invalid action from environment
     """
@@ -17,15 +18,17 @@ class ParametricActionsModel(TorchModelV2):
                  num_outputs,
                  model_config,
                  name):
-        num_outputs = 9
         super(ParametricActionsModel, self).__init__(obs_space, action_space, num_outputs, model_config, name)
+
+        # This is a hack. TODO Figure out how to fix the num_outputs to have the correct value
+        self.num_outputs = sum(self.action_space.nvec)
 
         # get real obs space, discarding action mask
         real_obs_space = obs_space.original_space.spaces['array_obs']
 
         self.action_embed_model = FullyConnectedNetwork(real_obs_space,
                                                         action_space,
-                                                        num_outputs,
+                                                        self.num_outputs,
                                                         model_config,
                                                         name + "_action_embed")
 
@@ -45,12 +48,11 @@ class ParametricActionsModel(TorchModelV2):
                        [BATCH, num_outputs]
 
         """
-        obs = input_dict['obs']
 
         # extract action mask  [batch size, num players]
-        action_mask = obs['action_mask']
+        action_mask = input_dict['obs']['action_mask']
         # extract original observations [batch size, obs size]
-        array_obs = obs['array_obs']
+        array_obs = input_dict['obs']['array_obs']
 
         # Compute the predicted action embedding
         # size [batch size, num players * num players]
@@ -58,14 +60,12 @@ class ParametricActionsModel(TorchModelV2):
             "obs": array_obs
         })
 
-        # Mask out invalid actions (use tf.float32.min for stability)
+        # Mask out invalid actions
         # size [batch size, num players * num players]
-        inf_mask = torch.maximum(torch.log(action_mask), torch.tensor(torch.finfo(torch.float32).min))
-        inf_mask = torch.as_tensor(inf_mask, dtype=torch.float32)
+        inf_mask = torch.clamp(torch.log(action_mask), FLOAT_MIN, FLOAT_MAX)
 
         masked_actions = action_embed + inf_mask
 
-        # return masked action embed and state
         return masked_actions, state
 
     def value_function(self):

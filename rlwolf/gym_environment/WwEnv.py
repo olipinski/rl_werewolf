@@ -597,7 +597,7 @@ class WwEnv(MultiAgentEnv):
             2. shuffle of ids
             3. numpy stack
             """
-            # add missing targets_add
+            # add missing targets
             signal_p, targets_p = add_missing(signal_p, targets_p)
 
             # shuffle
@@ -633,7 +633,7 @@ class WwEnv(MultiAgentEnv):
             )
 
             if self.signal_length > 0:
-                obs["signal_add"] = sg
+                obs["signal"] = sg
 
             observations[idx] = obs
 
@@ -654,7 +654,7 @@ class WwEnv(MultiAgentEnv):
             )
 
             if self.signal_length > 0:
-                obs["signal_add"] = sg
+                obs["signal"] = sg
 
             observations[idx] = obs
 
