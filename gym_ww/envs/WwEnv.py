@@ -191,7 +191,7 @@ class WwEnv(MultiAgentEnv):
 
             perc_vote = count / val_players
 
-            if perc_vote > self.req_threshold:
+            if perc_vote >= self.req_threshold:
                 # penalize for non divergent target
                 rewards = self.target_accord(target, rewards, actions)
 
@@ -367,6 +367,7 @@ class WwEnv(MultiAgentEnv):
                 comm = True
                 night = False
                 phase = 1
+                self.com_round += 1
 
         elif not self.is_night and not self.is_comm:
             night = True
