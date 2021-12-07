@@ -85,6 +85,12 @@ class Params:
     signal_length = 0
     signal_range = 9
 
+    # Multi-round params
+    # Number of rounds allowed before forcibly ending comm phase
+    num_rounds = 3
+    # Threshold required for the vote to pass
+    req_threshold = 0.8
+
     ##########################
     #    METHODS
     ##########################
