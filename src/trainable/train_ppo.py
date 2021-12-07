@@ -31,7 +31,7 @@ def mapping_static(agent_id):
 if __name__ == '__main__':
 
     _ = ParametricActionsModel
-    ray.init(local_mode=Params.debug, logging_level=logging.DEBUG)
+    ray.init(local_mode=Params.debug, logging_level=logging.INFO, num_gpus=Params.n_gpus)
 
     env_configs = CONFIGS
 

@@ -41,7 +41,7 @@ if __name__ == '__main__':
 
 
     _ = ParametricActionsModel
-    ray.init(local_mode=Params.debug, logging_level=logging.DEBUG, num_gpus=1)
+    ray.init(local_mode=Params.debug, logging_level=logging.INFO, num_gpus=Params.n_gpus)
 
     env_configs = CONFIGS
 
