@@ -2,10 +2,10 @@ from functools import reduce
 
 import gym
 import numpy as np
+from envs.WwEnv import WwEnv
 from ray.rllib.models.preprocessors import get_preprocessor
 from ray.rllib.utils.error import UnsupportedSpaceException
 
-from envs.WwEnv import WwEnv
 from gym_ww import ww
 
 

@@ -2,12 +2,12 @@ import copy
 import logging
 
 import numpy as np
-
 from evaluation import Prof, Episode
-from gym_ww import logger, ww, vil
 from other.custom_utils import pprint, suicide_num, most_frequent
 from utils import Params
 from wrappers.PaWrapper import ParametricActionWrapper
+
+from gym_ww import logger, ww, vil
 
 
 class EvaluationWrapper(ParametricActionWrapper):

@@ -11,19 +11,8 @@ from gym_ww import ww, vil
 from src.other.custom_utils import most_frequent
 
 
-####################
-# global vars
-####################
-# penalty fro breaking a rule
-
-####################
-# names for roles
-####################
-
-
 class WwEnv(MultiAgentEnv):
     """
-
 
     """
 
@@ -34,6 +23,10 @@ class WwEnv(MultiAgentEnv):
 
         """
 
+        # This is to make sure it is not referenced before assignment
+        num_rounds = None
+        req_threshold = None
+
         # if config is dict
         if isinstance(configs, EnvContext) or isinstance(configs, dict):
             # get num player
@@ -42,6 +35,15 @@ class WwEnv(MultiAgentEnv):
             except KeyError:
                 raise AttributeError(f"Attribute 'num_players' should be present in the EnvContext")
 
+            try:
+                num_rounds = configs['num_rounds']
+            except KeyError:
+                raise AttributeError(f"Attribute 'num_rounds' should be present in the EnvContext")
+
+            try:
+                req_threshold = configs['req_threshold']
+            except KeyError:
+                raise AttributeError(f"Attribute 'req_threshold' should be present in the EnvContext")
 
         elif isinstance(configs, int):
             # used for back compatibility
@@ -51,6 +53,10 @@ class WwEnv(MultiAgentEnv):
 
         # number of player should be more than 5
         assert num_players >= 5, "Number of player should be >= 5"
+
+        assert num_rounds >= 1, "Number of rounds should be >= 1"
+
+        assert 1 > req_threshold > 0, "Voting threshold must be a percentage, i.e. be less than 1 and more than 0"
 
         if ww_num is None:
             # number of wolves should be less than villagers
@@ -75,6 +81,8 @@ class WwEnv(MultiAgentEnv):
 
         self.signal_length = configs['signal_length']
         self.signal_range = configs['signal_range']
+        self.num_rounds = num_rounds
+        self.req_threshold = req_threshold
 
         # used for logging game
         self.ep_step = 0
@@ -87,6 +95,7 @@ class WwEnv(MultiAgentEnv):
         self.is_comm = True
         self.day_count = 0
         self.phase = 0
+        self.com_round = 0
         self.is_done = False
         self.custom_metrics = None
         self.role_map = None
@@ -94,7 +103,7 @@ class WwEnv(MultiAgentEnv):
         self.initialize()
 
     #######################################
-    #       INITALIZATION
+    #       INITIALIZATION
     #######################################
 
     def initialize(self):
@@ -128,6 +137,9 @@ class WwEnv(MultiAgentEnv):
         # rest just died
         self.just_died = None
 
+        # reset the communication round count
+        self.com_round = 0
+
     def reset(self):
         """Resets the state of the environment and returns an initial observation.
 
@@ -136,8 +148,11 @@ class WwEnv(MultiAgentEnv):
             """
 
         self.initialize()
+        # Initial signal of -1
         init_signal = {p: [-1] * self.signal_length for p in range(self.num_players)}
+        # Observation of all -1
         obs = self.observe(phase=0, signal=init_signal, targets={k: -1 for k in range(self.num_players)})
+        # Creating the actual observation
         obs, _, _, _ = self.convert(obs, {}, {}, {}, 0)
         return obs
 
@@ -159,29 +174,47 @@ class WwEnv(MultiAgentEnv):
             :return:
             """
 
+            # This is the true ratio, as our aim is to have X% of
+            # AGENTS to agree, not all players
+            val_players = self.num_players - self.num_wolves
+
+            # Counter to compare ratio
+            count = 0
+
             # get the agent to be executed
             target = most_frequent(actions)
 
-            # penalize for non divergent target
-            rewards = self.target_accord(target, rewards, actions)
+            # Now check if threshold has been passed
+            for id_, vote in actions.items():
+                if vote == target:
+                    count += 1
 
-            # penalize target agent
-            rewards[target] += self.penalties.get("death")
+            perc_vote = count / val_players
 
-            # kill him
-            self.status_map[target] = 0
-            self.just_died = target
+            if perc_vote > self.req_threshold:
+                # penalize for non divergent target
+                rewards = self.target_accord(target, rewards, actions)
 
-            # update day
-            self.day_count += 1
+                # penalize target agent
+                rewards[target] += self.penalties.get("death")
+
+                # kill him
+                self.status_map[target] = 0
+                self.just_died = target
+
+                # update day
+                self.day_count += 1
+
+            else:
+                rewards = {id_: val + self.penalties.get('wasted_round') for id_, val in rewards.items()}
 
             return rewards
 
         # call the appropriate method depending on the phase
         if self.is_comm:
+            # TODO Could also add penalty per round of comms?
             return rewards
         else:
-
             rewards = {id_: val + self.penalties.get('day') for id_, val in rewards.items()}
             return execution(actions, rewards)
 
@@ -323,9 +356,17 @@ class WwEnv(MultiAgentEnv):
             phase = 1
 
         elif not self.is_night and self.is_comm:
-            comm = False
-            phase = 2
-            night = False
+            # Advance to execution
+            # Plus one is because we start at 0
+            if self.com_round+1 >= self.num_rounds:
+                comm = False
+                phase = 2
+                night = False
+            # Keep on communicating as num_rounds not met or exceeded
+            else:
+                comm = True
+                night = False
+                phase = 1
 
         elif not self.is_night and not self.is_comm:
             night = True
@@ -381,7 +422,7 @@ class WwEnv(MultiAgentEnv):
         # if the match is not done yet remove dead agents
         if not self.is_done:
             # filter out dead agents from rewards, not the one just died tho
-            if phase in [1, 3]:
+            if 1 < phase < 3:
                 rewards = {id_: val for id_, val in rewards.items() if
                            self.status_map[id_] or id_ == self.just_died}
                 obs = {id_: val for id_, val in obs.items() if self.status_map[id_] or id_ == self.just_died}
