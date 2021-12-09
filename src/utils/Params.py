@@ -26,6 +26,26 @@ def singleton(cls):
     return getinstance
 
 
+def initialize_dirs(dirs: list) -> None:
+    for init_dir in dirs:
+        if not os.path.exists(init_dir):
+            print(f"Mkdir {init_dir}")
+            os.makedirs(init_dir)
+
+
+def empty_dirs(to_empty: list) -> None:
+    for folder in to_empty:
+        # Check if folder exists first
+        if os.path.isdir(folder):
+            # Proceed to clean
+            for the_file in os.listdir(folder):
+                file_path = os.path.join(folder, the_file)
+                if os.path.isfile(file_path):
+                    os.unlink(file_path)
+                elif os.path.isdir(file_path):
+                    shutil.rmtree(file_path)
+
+
 #@singleton
 class Params:
     ##########################
@@ -43,13 +63,13 @@ class Params:
 
     LOG_DIR = join_paths(WORKING_DIR, "log_dir")
 
-    RAY_DIR = join_paths(LOG_DIR, "ray_results")
-    GAME_LOG_DIR = join_paths(LOG_DIR, "match_log")
-    EVAL_DIR = join_paths(LOG_DIR, "eval")
+    RAY_DIR = join_paths(LOG_DIR, f"ray_results_{unique_id}")
+    GAME_LOG_DIR = join_paths(LOG_DIR, f"match_log_{unique_id}")
+    EVAL_DIR = join_paths(LOG_DIR, f"eval_{unique_id}")
 
-    episode_file = join_paths(EVAL_DIR, "episode.pkl")
-    log_match_file = join_paths(GAME_LOG_DIR, f"{unique_id}_log.log")
-    params_file = join_paths(GAME_LOG_DIR, "params.log")
+    episode_file = join_paths(EVAL_DIR, f"episode_{unique_id}.pkl")
+    log_match_file = join_paths(GAME_LOG_DIR, f"matchlog_{unique_id}.log")
+    params_file = join_paths(GAME_LOG_DIR, f"params_{unique_id}.log")
 
     ##########################
     # Performance stuff
@@ -119,9 +139,9 @@ class Params:
         print("Params class initialized")
 
         if not self.resume_training:
-            self.__empty_dirs([self.LOG_DIR])
+            empty_dirs([self.LOG_DIR])
 
-        self.__initialize_dirs()
+        initialize_dirs([self.LOG_DIR, self.RAY_DIR, self.GAME_LOG_DIR, self.EVAL_DIR])
 
         # change values based on argparse
         self.__parse_args()
@@ -175,36 +195,3 @@ class Params:
         # print them to given out
         for sts in out:
             print(msg, file=sts)
-
-    def __initialize_dirs(self):
-        """
-        Initialize all the directories  listed above
-        :return:
-        """
-        variables = [attr for attr in dir(self) if not callable(getattr(self, attr)) and not attr.startswith("__")]
-        for var in variables:
-            if var.lower().endswith('dir'):
-                path = getattr(self, var)
-                if not os.path.exists(path):
-                    termcolor.colored(f"Mkdir {path}", "yellow")
-                    os.makedirs(path)
-
-    def __empty_dirs(self, to_empty):
-        """
-        Empty all the dirs in to_empty
-        :return:
-        """
-
-        for folder in to_empty:
-            try:
-                for the_file in os.listdir(folder):
-                    file_path = os.path.join(folder, the_file)
-                    try:
-                        if os.path.isfile(file_path):
-                            os.unlink(file_path)
-                        elif os.path.isdir(file_path):
-                            shutil.rmtree(file_path)
-                    except Exception as e:
-                        print(e)
-            except Exception:
-                continue
