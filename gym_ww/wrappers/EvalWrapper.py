@@ -4,10 +4,11 @@ import logging
 import numpy as np
 from evaluation import Prof, Episode
 from other.custom_utils import pprint, suicide_num, most_frequent
+from ray.rllib.env import EnvContext
 from utils import Params
 from wrappers.PaWrapper import ParametricActionWrapper
 
-from gym_ww import logger, ww, vil
+from gym_ww import ww, vil
 
 
 class EvaluationWrapper(ParametricActionWrapper):
@@ -90,6 +91,38 @@ class EvaluationWrapper(ParametricActionWrapper):
 
     def __init__(self, configs, roles=None):
         super().__init__(configs, roles=roles)
+
+        # if config is dict
+        if isinstance(configs, EnvContext) or isinstance(configs, dict):
+            # get num player
+            try:
+                self.ww_log_match_file = configs['log_match_file']
+                self.log_step = configs["log_step"]
+                self.episode_file = configs["episode_file"]
+            except KeyError:
+                raise AttributeError(f"Attribute 'ww_log_match_file' should be present in the EnvContext")
+
+        # Initialize envs loggers
+        self.logger = logging.getLogger("WwEnvs")
+        self.logger.setLevel(logging.DEBUG)
+
+        # adding file handler
+        f_formatter = logging.Formatter('%(asctime)s - %(message)s')
+        self.f_handler = logging.FileHandler(self.ww_log_match_file)
+        self.f_handler.setLevel(logging.DEBUG)
+        self.f_handler.setFormatter(f_formatter)
+
+        # adding stream handler
+        c_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        self.c_handler = logging.StreamHandler()
+        self.c_handler.setFormatter(c_formatter)
+        self.c_handler.setLevel(logging.WARN)
+
+        # adding handlers to main logger
+        self.logger.addHandler(self.c_handler)
+        self.logger.addHandler(self.f_handler)
+
+        self.logger.debug("Logger initialized")
 
         self.log(
             f"Starting game with {self.num_players} players: {self.num_players - self.num_wolves}"
@@ -216,7 +249,7 @@ class EvaluationWrapper(ParametricActionWrapper):
         if self.phase in [1, 3]:
             filtered_ids.append(self.just_died)
 
-        pprint(targets, signals, self.roles, signal_length=self.signal_length, logger=logger,
+        pprint(targets, signals, self.roles, signal_length=self.signal_length, logger=self.logger,
                filtered_ids=filtered_ids)
 
         # notify of dead agents
@@ -258,8 +291,7 @@ class EvaluationWrapper(ParametricActionWrapper):
         self.log("\n")
 
     def log(self, msg, level=logging.INFO):
-
-        logger.log(msg=msg, level=level)
+        self.logger.log(msg=msg, level=level)
 
 
 def win_brackets(num_lines=5):
