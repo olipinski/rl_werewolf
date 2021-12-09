@@ -47,9 +47,9 @@ class Params:
     GAME_LOG_DIR = join_paths(LOG_DIR, "match_log")
     EVAL_DIR = join_paths(LOG_DIR, "eval")
 
-    episode_file = join_paths(EVAL_DIR, "episode.pkl")
+    episode_file = join_paths(EVAL_DIR, f"{unique_id}_episode.pkl")
     log_match_file = join_paths(GAME_LOG_DIR, f"{unique_id}_log.log")
-    params_file = join_paths(GAME_LOG_DIR, "params.log")
+    params_file = join_paths(GAME_LOG_DIR, f"{unique_id}_params.log")
 
     ##########################
     # Performance stuff
@@ -118,8 +118,8 @@ class Params:
     def __init__(self):
         print("Params class initialized")
 
-        if not self.resume_training:
-            self.__empty_dirs([self.LOG_DIR])
+        #if not self.resume_training:
+        #    self.__empty_dirs([self.LOG_DIR])
 
         self.__initialize_dirs()
 
