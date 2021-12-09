@@ -366,7 +366,7 @@ class WwEnv(MultiAgentEnv):
             else:
                 comm = True
                 night = False
-                phase = 1
+                phase = 2
                 self.com_round += 1
 
         elif not self.is_night and not self.is_comm:

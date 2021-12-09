@@ -147,7 +147,7 @@ class EvaluationWrapper(ParametricActionWrapper):
             accord = sum([1 for t in targets.values() if t == chosen]) / len(targets)
             self.custom_metrics["accord"] += accord
 
-            if accord > 1: raise AttributeError("Accord garter than 1")
+            if accord > 1: raise AttributeError("Accord greater than 1")
 
         elif self.phase == 1:
             were_wolves = self.get_ids(ww, alive=True, include_just_died=True)
@@ -156,7 +156,7 @@ class EvaluationWrapper(ParametricActionWrapper):
             accord = sum([1 for t in were_wolves.values() if t == chosen]) / len(were_wolves)
             self.custom_metrics["accord"] += accord
 
-            if accord > 1: raise AttributeError("Accord garter than 1")
+            if accord > 1: raise AttributeError("Accord greater than 1")
 
         if self.is_done:
 
@@ -186,8 +186,12 @@ class EvaluationWrapper(ParametricActionWrapper):
             return
 
         # if there is no difference between phases then return
+        # Unless pahse is 2, since there are multiple rounds
         if prev['phase'] == self.phase:
-            return
+            if self.phase == 2:
+                pass
+            else:
+                return
 
         # log day
         self.log(f"Day {prev['day_count']})")
@@ -200,7 +204,7 @@ class EvaluationWrapper(ParametricActionWrapper):
             self.log(f"Phase {self.phase} | Night Time| Eating")
 
         elif self.phase == 2:
-            self.log(f"Phase {self.phase} | Day Time| Voting")
+            self.log(f"Phase {self.phase} | Day Time| Voting Round {self.com_round}")
 
         else:
             self.log(f"Phase {self.phase} | Day Time| Executing")
