@@ -221,7 +221,7 @@ class EvaluationWrapper(ParametricActionWrapper):
 
         # notify of dead agents
         if self.phase in [1, 3]:
-            if self.wasted_round:
+            if self.wasted_round and self.phase == 3:
                 msg = f"Round was wasted (vote didnt pass threshold - {self.perc_vote}/{self.req_threshold}), and so " \
                       f"no players were killed. "
             else:
