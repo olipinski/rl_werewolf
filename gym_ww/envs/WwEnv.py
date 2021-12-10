@@ -97,6 +97,7 @@ class WwEnv(MultiAgentEnv):
         self.phase = 0
         self.com_round = 0
         self.wasted_round = None
+        self.perc_vote = 0
         self.is_done = False
         self.custom_metrics = None
         self.role_map = None
@@ -143,6 +144,7 @@ class WwEnv(MultiAgentEnv):
 
         # for eval purposes
         self.wasted_round = None
+        self.perc_vote = 0
 
     def reset(self):
         """Resets the state of the environment and returns an initial observation.
@@ -172,13 +174,14 @@ class WwEnv(MultiAgentEnv):
         :return: updated rewards
         """
 
-        self.wasted_round = False
-
         def execution(actions, rewards):
             """
             To be called when is execution phase
             :return:
             """
+
+            self.wasted_round = False
+            self.perc_vote = 0
 
             # This is the true ratio, as our aim is to have X% of
             # AGENTS to agree, not all players
@@ -195,9 +198,9 @@ class WwEnv(MultiAgentEnv):
                 if vote == target:
                     count += 1
 
-            perc_vote = count / val_players
+            self.perc_vote = count / val_players
 
-            if perc_vote >= self.req_threshold:
+            if self.perc_vote >= self.req_threshold:
                 # penalize for non divergent target
                 rewards = self.target_accord(target, rewards, actions)
 
@@ -213,13 +216,13 @@ class WwEnv(MultiAgentEnv):
 
             else:
                 self.wasted_round = True
+                self.day_count += 1
                 rewards = {id_: val + self.penalties.get('wasted_round') for id_, val in rewards.items()}
 
             return rewards
 
         # call the appropriate method depending on the phase
         if self.is_comm:
-            # TODO Could also add penalty per round of comms?
             return rewards
         else:
             rewards = {id_: val + self.penalties.get('day') for id_, val in rewards.items()}

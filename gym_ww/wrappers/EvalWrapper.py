@@ -186,7 +186,7 @@ class EvaluationWrapper(ParametricActionWrapper):
             return
 
         # if there is no difference between phases then return
-        # Unless pahse is 2, since there are multiple rounds
+        # Unless phase is 2, since there are multiple rounds
         if prev['phase'] == self.phase:
             if self.phase == 2:
                 pass
@@ -221,17 +221,21 @@ class EvaluationWrapper(ParametricActionWrapper):
 
         # notify of dead agents
         if self.phase in [1, 3]:
-            # get dead ids
-            dead = self.just_died
-
-            # build msg
-            msg = f"Player {dead} ({self.role_map[dead]}) has been "
-
-            # personalize for role
-            if self.phase == 1:
-                msg += "eaten"
+            if self.wasted_round:
+                msg = f"Round was wasted (vote didnt pass threshold - {self.perc_vote}/{self.req_threshold}), and so " \
+                      f"no players were killed. "
             else:
-                msg += "executed"
+                # get dead ids
+                dead = self.just_died
+
+                # build msg
+                msg = f"Player {dead} ({self.role_map[dead]}) has been "
+
+                # personalize for role
+                if self.phase == 1:
+                    msg += "eaten"
+                else:
+                    msg += "executed"
 
             self.log(msg=msg)
 
