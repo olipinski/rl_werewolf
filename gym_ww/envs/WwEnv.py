@@ -174,14 +174,14 @@ class WwEnv(MultiAgentEnv):
         :return: updated rewards
         """
 
+        self.wasted_round = False
+        self.perc_vote = 0
+
         def execution(actions, rewards):
             """
             To be called when is execution phase
             :return:
             """
-
-            self.wasted_round = False
-            self.perc_vote = 0
 
             # This is the true ratio, as our aim is to have X% of
             # AGENTS to agree, not all players
