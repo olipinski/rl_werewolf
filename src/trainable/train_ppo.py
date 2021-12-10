@@ -53,7 +53,7 @@ if __name__ == '__main__':
             trg_accord=-1,
 
             # Penalty for a wasted voting round, i.e. the agents didn't reach the required threshold of X%
-            wasted_round=-5,
+            wasted_round=-2,
 
         ),
         max_days=Params.max_days,

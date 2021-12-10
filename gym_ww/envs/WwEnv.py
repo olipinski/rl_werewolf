@@ -96,6 +96,7 @@ class WwEnv(MultiAgentEnv):
         self.day_count = 0
         self.phase = 0
         self.com_round = 0
+        self.wasted_round = None
         self.is_done = False
         self.custom_metrics = None
         self.role_map = None
@@ -140,6 +141,9 @@ class WwEnv(MultiAgentEnv):
         # reset the communication round count
         self.com_round = 0
 
+        # for eval purposes
+        self.wasted_round = None
+
     def reset(self):
         """Resets the state of the environment and returns an initial observation.
 
@@ -167,6 +171,8 @@ class WwEnv(MultiAgentEnv):
         :param rewards: dict, maps agent id_ to curr reward
         :return: updated rewards
         """
+
+        self.wasted_round = False
 
         def execution(actions, rewards):
             """
@@ -206,6 +212,7 @@ class WwEnv(MultiAgentEnv):
                 self.day_count += 1
 
             else:
+                self.wasted_round = True
                 rewards = {id_: val + self.penalties.get('wasted_round') for id_, val in rewards.items()}
 
             return rewards

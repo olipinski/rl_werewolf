@@ -239,6 +239,7 @@ class EvaluationWrapper(ParametricActionWrapper):
         else:
             choice = most_frequent([v for k, v in targets.items() if k in filtered_ids])
             self.log(msg=f"Most voted is {choice} ({self.role_map[choice]})")
+            self.log(msg=f"Was round wasted: {self.wasted_round}")
 
         if self.is_done:
 
