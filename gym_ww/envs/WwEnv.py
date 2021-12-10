@@ -362,6 +362,7 @@ class WwEnv(MultiAgentEnv):
                 comm = False
                 phase = 2
                 night = False
+                self.com_round = 0
             # Keep on communicating as num_rounds not met or exceeded
             else:
                 comm = True
