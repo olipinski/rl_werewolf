@@ -56,9 +56,9 @@ class Params:
     ##########################
     debug = False
 
-    n_cpus = multiprocessing.cpu_count() if not debug else 1
-    n_gpus = 1 if not debug and tf.test.is_gpu_available() else 0
-    n_workers = 7 if not debug else 1
+    n_cpus = 16
+    n_gpus = 1
+    n_workers = 16
 
     ##########################
     # Evaluation params
@@ -73,7 +73,7 @@ class Params:
     # env params
     ##########################
     # check
-    num_player = 9
+    num_player = 21
 
     # maximum number of day before a match forcefully ends
     max_days = 10
@@ -81,14 +81,14 @@ class Params:
     # signal is used in the communication phase to signal other agents about intentions
     # the length concerns the dimension of the signal while the components is the range of values it can fall into
     # a range value of 2 is equal to binary variable
-    signal_length = 0
+    signal_length = 2
     signal_range = 9
 
     # Multi-round params
     # Number of rounds allowed before forcibly ending comm phase
     num_rounds = 3
     # Threshold required for the vote to pass
-    req_threshold = 0.8
+    req_threshold = 0.6
 
     ##########################
     #    METHODS
