@@ -94,6 +94,8 @@ class EvaluationWrapper(ParametricActionWrapper):
         self.log(
             f"Starting game with {self.num_players} players: {self.num_players - self.num_wolves}"
             f" {vil} and {self.num_wolves} {ww}")
+        self.log(f"The params for the signal length: {self.signal_length}, the signal range: {self.signal_range},"
+                 f" voting threshold: {self.req_threshold} and number of rounds: {self.num_rounds}.")
 
         # todo: find a way to split when there are multiple workers
         self.prof = Prof()
