@@ -77,7 +77,7 @@ class WwEnv(MultiAgentEnv):
         self.penalties = configs['penalties']
         self.max_days = configs['max_days']
 
-        assert configs['signal_length'] <= num_players, "Signal length must be not greater than the number of players"
+        # assert configs['signal_length'] <= num_players, "Signal length must be not greater than the number of players"
 
         self.signal_length = configs['signal_length']
         self.signal_range = configs['signal_range']
