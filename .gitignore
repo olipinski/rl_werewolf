@@ -1,4 +1,5 @@
-
+data/
+analysis/
 gym_ww/__pycache__/
 gym_ww/envs/__pycache__/
 __pycache__/

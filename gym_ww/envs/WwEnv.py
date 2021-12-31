@@ -185,7 +185,11 @@ class WwEnv(MultiAgentEnv):
 
             # This is the true ratio, as our aim is to have X% of
             # AGENTS to agree, not all players
-            val_players = self.num_players - self.num_wolves
+
+            # TODO this could work?
+            alive_ww = self.get_ids(ww,)
+            alive_v = self.get_ids(vil)
+            val_players = len(alive_v) - len(alive_ww)
 
             # Counter to compare ratio
             count = 0

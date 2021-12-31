@@ -151,14 +151,14 @@ class EvaluationWrapper(ParametricActionWrapper):
 
             if accord > 1: raise AttributeError("Accord greater than 1")
 
-        elif self.phase == 1:
-            were_wolves = self.get_ids(ww, alive=True, include_just_died=True)
-            were_wolves = {k: v for k, v in targets.items() if k in were_wolves}
-            chosen = most_frequent(were_wolves)
-            accord = sum([1 for t in were_wolves.values() if t == chosen]) / len(were_wolves)
-            self.custom_metrics["accord"] += accord
-
-            if accord > 1: raise AttributeError("Accord greater than 1")
+        # elif self.phase == 1:
+        #     were_wolves = self.get_ids(ww, alive=True, include_just_died=True)
+        #     were_wolves = {k: v for k, v in targets.items() if k in were_wolves}
+        #     chosen = most_frequent(were_wolves)
+        #     accord = sum([1 for t in were_wolves.values() if t == chosen]) / len(were_wolves)
+        #     self.custom_metrics["accord"] += accord
+        #
+        #     if accord > 1: raise AttributeError("Accord greater than 1")
 
         if self.is_done:
 
