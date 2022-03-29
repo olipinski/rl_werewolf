@@ -4,6 +4,12 @@ This is the repo containing the code used in our paper titled "Turing Test via E
 
 For details of our modifications and code we refer to our paper on [OpenReview](https://openreview.net/forum?id=B4xM-Qb0mbq)
 
-# Install
+## Install
 
 To install follow the instructions in the [Installation](Resources/MarkDowns/Installation.md) markdown.
+
+## Run
+
+To run you will have to move the script `train.sh` from the `scripts` dir into the root of this repo.
+
+Parameters such as the number of rounds or the required threshold can be adjusted in [train_appo.py](https://github.com/olipinski/rl_werewolf/blob/multi-round/src/utils/Params.py)
