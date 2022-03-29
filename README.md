@@ -12,4 +12,4 @@ To install follow the instructions in the [Installation](Resources/MarkDowns/Ins
 
 To run you will have to move the script `train.sh` from the `scripts` dir into the root of this repo.
 
-Parameters such as the number of rounds or the required threshold can be adjusted in [train_appo.py](https://github.com/olipinski/rl_werewolf/blob/multi-round/src/utils/Params.py)
+Parameters such as the number of rounds or the required threshold can be adjusted in [Params.py](https://github.com/olipinski/rl_werewolf/blob/multi-round/src/utils/Params.py)
